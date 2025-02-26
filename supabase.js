@@ -138,29 +138,72 @@ async function createArticle(article) {
       return null;
     }
     
-    // Ensure we have a unique ID and current date
+    // Map the article object to match the database schema exactly
+    // This way we only send fields that exist in the database
     const newArticle = {
-      ...article,
       id: article.id || Date.now().toString(),
-      date: new Date().toISOString()
+      title: article.title || 'Untitled Article',
+      category: article.category || 'Uncategorized',
+      excerpt: article.excerpt || '',
+      content: article.content || '',
+      status: article.status || 'published',
+      date: new Date().toISOString(),
+      imageUrl: article.imageUrl || '/api/placeholder/800/400',
+      readTime: article.readTime || '3 min read',
+      showTimeline: article.showTimeline || false
     };
     
     if (SUPABASE_DEBUG) console.log("Sending to Supabase:", newArticle);
     
-    const { data, error } = await supabase
-      .from('articles')
-      .insert([newArticle])
-      .select();
-    
-    if (error) {
-      console.error("Error creating article:", error);
-      return null;
+    // First try with camelCase fields
+    try {
+      const { data, error } = await supabase
+        .from('articles')
+        .insert([newArticle])
+        .select();
+      
+      if (error) {
+        console.error("Error creating article with camelCase:", error);
+        throw error; // Let the catch block handle it
+      }
+      
+      if (SUPABASE_DEBUG) console.log("Article created successfully:", data);
+      return data[0];
+    } catch (camelCaseError) {
+      // If camelCase fails, try snake_case as a fallback
+      console.log("Trying snake_case field names as fallback");
+      
+      // Convert to snake_case
+      const snakeCaseArticle = {
+        id: newArticle.id,
+        title: newArticle.title,
+        category: newArticle.category,
+        excerpt: newArticle.excerpt,
+        content: newArticle.content,
+        status: newArticle.status,
+        date: newArticle.date,
+        image_url: newArticle.imageUrl, // snake_case version
+        read_time: newArticle.readTime, // snake_case version
+        show_timeline: newArticle.showTimeline // snake_case version
+      };
+      
+      const { data, error } = await supabase
+        .from('articles')
+        .insert([snakeCaseArticle])
+        .select();
+      
+      if (error) {
+        console.error("Error creating article with snake_case:", error);
+        // Both camelCase and snake_case failed
+        throw new Error(`Failed with both camelCase and snake_case: ${error.message}`);
+      }
+      
+      if (SUPABASE_DEBUG) console.log("Article created successfully with snake_case:", data);
+      return data[0];
     }
-    
-    if (SUPABASE_DEBUG) console.log("Article created successfully:", data);
-    return data[0];
   } catch (e) {
     console.error("Exception creating article:", e);
+    alert(`Error creating article: ${e.message}`);
     return null;
   }
 }
