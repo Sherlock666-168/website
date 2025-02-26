@@ -2108,8 +2108,26 @@
   <!-- Supabase JS library from CDN -->
 <!-- Replace the current Supabase CDN and initialization scripts with this code -->
 
+
+
+
+
+  
 <!-- Supabase CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
+<!-- Add the checker script right here, between the CDN and initialization -->
+<script>
+// Check if the supabase library loaded correctly
+(function() {
+  console.log("Checking Supabase CDN load status:");
+  console.log("- supabase global object exists:", typeof supabase !== 'undefined');
+  if (typeof supabase !== 'undefined') {
+    console.log("- supabase.createClient exists:", typeof supabase.createClient === 'function');
+    console.log("- Available methods on supabase:", Object.keys(supabase));
+  }
+})();
+</script>
+
 
 <!-- Initialization script - runs immediately -->
 <script>
