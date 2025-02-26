@@ -1,97 +1,55 @@
 // supabase.js - Integration with Supabase for article management
+
 // Debug mode
 const SUPABASE_DEBUG = true;
 
-// Supabase client initialization - CORRECT VERSION FOR CDN
-const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';  // Replace with your URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';  // Replace with your key
-// const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
-
-
+// Get the global supabase instance that was created in the inline script
 let supabase;
 
-// Initialize the client
-document.addEventListener('DOMContentLoaded', function() {
-  try {
-    console.log("Initializing Supabase client...");
-    
-    // Check which method is available
-    if (typeof supabaseClient !== 'undefined') {
-      console.log("Using CDN supabaseClient");
-      supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
-      window.supabase = supabase; // Also add to window for global access
-    } else {
-      console.error("supabaseClient is not defined! Make sure the Supabase CDN script is loaded.");
-      alert("Supabase client initialization failed. Check console for details.");
-    }
-    
-    // Test connection
-    console.log("Testing Supabase connection...");
-    testConnection();
-    
-  } catch (e) {
-    console.error("Error initializing Supabase:", e);
-    alert("Failed to initialize Supabase: " + e.message);
+// Initialize with global client
+if (typeof window.supabase !== 'undefined') {
+  console.log("Using global supabase client");
+  supabase = window.supabase;
+} else {
+  console.error("Global supabase client not found - using fallback initialization");
+  
+  // Fallback initialization - this is just in case, but shouldn't be needed
+  const supabaseUrl = 'https://your-actual-project-url.supabase.co';
+  const supabaseKey = 'your-actual-anon-key';
+  
+  if (typeof supabaseClient !== 'undefined') {
+    supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+  } else {
+    console.error("CRITICAL ERROR: supabaseClient is not defined - Supabase CDN script may not be loaded");
+    alert("Database initialization failed. Please check console for details.");
   }
-});
+}
 
-// Test Supabase connection
+// Test the connection
 async function testConnection() {
+  console.log("Testing Supabase connection...");
   try {
     if (!supabase) {
-      console.error("Cannot test connection - supabase is not initialized");
-      return;
+      throw new Error("Supabase client is not initialized");
     }
     
-    console.log("Running test query...");
     const { data, error } = await supabase.from('articles').select('id').limit(1);
     
     if (error) {
-      console.error("Connection test failed:", error);
-    } else {
-      console.log("Supabase connection successful!", data);
+      console.error("Supabase connection test failed:", error);
+      return false;
     }
+    
+    console.log("Supabase connection successful! Found", data.length, "articles");
+    return true;
   } catch (e) {
-    console.error("Error testing connection:", e);
+    console.error("Error testing Supabase connection:", e);
+    return false;
   }
 }
 
-
-try {
-  if (SUPABASE_DEBUG) console.log("Initializing Supabase client with:", { url: supabaseUrl, keyLength: supabaseKey.length });
-  
-  // Check if using the global client from CDN or module import
-  if (typeof supabaseClient !== 'undefined') {
-    if (SUPABASE_DEBUG) console.log("Using global supabaseClient from CDN");
-    supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
-  } else if (typeof createClient !== 'undefined') {
-    if (SUPABASE_DEBUG) console.log("Using imported createClient function");
-    supabase = createClient(supabaseUrl, supabaseKey);
-  } else {
-    throw new Error("Neither supabaseClient nor createClient is available");
-  }
-  
-  // Test the connection immediately
-  (async function() {
-    try {
-      if (SUPABASE_DEBUG) console.log("Testing Supabase connection...");
-      const { data, error } = await supabase.from('articles').select('id').limit(1);
-      
-      if (error) {
-        console.error("Supabase connection test failed:", error);
-        alert("Database connection error: " + error.message);
-      } else {
-        console.log("Supabase connection successful! Found", data.length, "articles");
-      }
-    } catch (e) {
-      console.error("Error testing Supabase connection:", e);
-    }
-  })();
-  
-} catch (e) {
-  console.error("Error initializing Supabase client:", e);
-}
-
+// Call the test
+testConnection();
 
 /**
  * Fetch all articles from Supabase
@@ -101,6 +59,11 @@ try {
 async function fetchArticles(status = null) {
   try {
     if (SUPABASE_DEBUG) console.log("Fetching articles with status filter:", status);
+    
+    if (!supabase) {
+      console.error("Cannot fetch articles - supabase is not initialized");
+      return [];
+    }
     
     let query = supabase.from('articles').select('*');
     
@@ -122,24 +85,35 @@ async function fetchArticles(status = null) {
     return [];
   }
 }
+
 /**
  * Fetch a single article by ID
  * @param {string} id - Article ID
  * @returns {Promise<Object|null>} - Article object or null if not found
  */
 async function fetchArticleById(id) {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('id', id)
-    .single();
-  
-  if (error) {
-    console.error('Error fetching article:', error);
+  try {
+    if (!supabase) {
+      console.error("Cannot fetch article - supabase is not initialized");
+      return null;
+    }
+    
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error("Error fetching article:", error);
+      return null;
+    }
+    
+    return data;
+  } catch (e) {
+    console.error("Exception fetching article:", e);
     return null;
   }
-  
-  return data;
 }
 
 /**
@@ -147,10 +121,14 @@ async function fetchArticleById(id) {
  * @param {Object} article - Article object
  * @returns {Promise<Object|null>} - Created article or null if failed
  */
-
 async function createArticle(article) {
   try {
     if (SUPABASE_DEBUG) console.log("Creating article:", article);
+    
+    if (!supabase) {
+      console.error("Cannot create article - supabase is not initialized");
+      return null;
+    }
     
     // Ensure we have a unique ID and current date
     const newArticle = {
@@ -159,7 +137,6 @@ async function createArticle(article) {
       date: new Date().toISOString()
     };
     
-    // Log the exact payload being sent
     if (SUPABASE_DEBUG) console.log("Sending to Supabase:", newArticle);
     
     const { data, error } = await supabase
@@ -169,12 +146,6 @@ async function createArticle(article) {
     
     if (error) {
       console.error("Error creating article:", error);
-      // Show user feedback
-      if (typeof showNotification === 'function') {
-        showNotification('Failed to save article: ' + error.message, 'error');
-      } else {
-        alert('Failed to save article: ' + error.message);
-      }
       return null;
     }
     
@@ -182,12 +153,6 @@ async function createArticle(article) {
     return data[0];
   } catch (e) {
     console.error("Exception creating article:", e);
-    // Show user feedback
-    if (typeof showNotification === 'function') {
-      showNotification('Error: ' + e.message, 'error');
-    } else {
-      alert('Error: ' + e.message);
-    }
     return null;
   }
 }
@@ -199,25 +164,35 @@ async function createArticle(article) {
  * @returns {Promise<Object|null>} - Updated article or null if failed
  */
 async function updateArticle(id, updates) {
-  // Always update the date when article is modified
-  const updatedFields = {
-    ...updates,
-    date: new Date().toISOString()
-  };
-  
-  const { data, error } = await supabase
-    .from('articles')
-    .update(updatedFields)
-    .eq('id', id)
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error updating article:', error);
+  try {
+    if (!supabase) {
+      console.error("Cannot update article - supabase is not initialized");
+      return null;
+    }
+    
+    // Always update the date when article is modified
+    const updatedFields = {
+      ...updates,
+      date: new Date().toISOString()
+    };
+    
+    const { data, error } = await supabase
+      .from('articles')
+      .update(updatedFields)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) {
+      console.error("Error updating article:", error);
+      return null;
+    }
+    
+    return data;
+  } catch (e) {
+    console.error("Exception updating article:", e);
     return null;
   }
-  
-  return data;
 }
 
 /**
@@ -226,17 +201,27 @@ async function updateArticle(id, updates) {
  * @returns {Promise<boolean>} - Success status
  */
 async function deleteArticle(id) {
-  const { error } = await supabase
-    .from('articles')
-    .delete()
-    .eq('id', id);
-  
-  if (error) {
-    console.error('Error deleting article:', error);
+  try {
+    if (!supabase) {
+      console.error("Cannot delete article - supabase is not initialized");
+      return false;
+    }
+    
+    const { error } = await supabase
+      .from('articles')
+      .delete()
+      .eq('id', id);
+    
+    if (error) {
+      console.error("Error deleting article:", error);
+      return false;
+    }
+    
+    return true;
+  } catch (e) {
+    console.error("Exception deleting article:", e);
     return false;
   }
-  
-  return true;
 }
 
 /**
@@ -246,24 +231,34 @@ async function deleteArticle(id) {
  * @returns {Promise<boolean>} - Success status
  */
 async function addComment(articleId, comment) {
-  const newComment = {
-    article_id: articleId,
-    id: Date.now().toString(),
-    author: comment.author || 'Guest User',
-    content: comment.content,
-    date: new Date().toISOString()
-  };
-  
-  const { error } = await supabase
-    .from('comments')
-    .insert([newComment]);
-  
-  if (error) {
-    console.error('Error adding comment:', error);
+  try {
+    if (!supabase) {
+      console.error("Cannot add comment - supabase is not initialized");
+      return false;
+    }
+    
+    const newComment = {
+      article_id: articleId,
+      id: Date.now().toString(),
+      author: comment.author || 'Guest User',
+      content: comment.content,
+      date: new Date().toISOString()
+    };
+    
+    const { error } = await supabase
+      .from('comments')
+      .insert([newComment]);
+    
+    if (error) {
+      console.error("Error adding comment:", error);
+      return false;
+    }
+    
+    return true;
+  } catch (e) {
+    console.error("Error adding comment:", e);
     return false;
   }
-  
-  return true;
 }
 
 /**
@@ -272,18 +267,28 @@ async function addComment(articleId, comment) {
  * @returns {Promise<Array>} - Array of comment objects
  */
 async function fetchComments(articleId) {
-  const { data, error } = await supabase
-    .from('comments')
-    .select('*')
-    .eq('article_id', articleId)
-    .order('date', { ascending: true });
-  
-  if (error) {
-    console.error('Error fetching comments:', error);
+  try {
+    if (!supabase) {
+      console.error("Cannot fetch comments - supabase is not initialized");
+      return [];
+    }
+    
+    const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('article_id', articleId)
+      .order('date', { ascending: true });
+    
+    if (error) {
+      console.error("Error fetching comments:", error);
+      return [];
+    }
+    
+    return data || [];
+  } catch (e) {
+    console.error("Error fetching comments:", e);
     return [];
   }
-  
-  return data || [];
 }
 
 /**
@@ -292,25 +297,37 @@ async function fetchComments(articleId) {
  * @returns {Promise<Array>} - Array of matching article objects
  */
 async function searchArticles(query) {
-  // This searches the title, content, and excerpt columns for the query
-  // Only returns published articles
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('status', 'published')
-    .or(`title.ilike.%${query}%,content.ilike.%${query}%,excerpt.ilike.%${query}%,category.ilike.%${query}%`)
-    .order('date', { ascending: false });
-  
-  if (error) {
-    console.error('Error searching articles:', error);
+  try {
+    if (!supabase) {
+      console.error("Cannot search articles - supabase is not initialized");
+      return [];
+    }
+    
+    // This searches the title, content, and excerpt columns for the query
+    // Only returns published articles
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*')
+      .eq('status', 'published')
+      .or(`title.ilike.%${query}%,content.ilike.%${query}%,excerpt.ilike.%${query}%,category.ilike.%${query}%`)
+      .order('date', { ascending: false });
+    
+    if (error) {
+      console.error("Error searching articles:", error);
+      return [];
+    }
+    
+    return data || [];
+  } catch (e) {
+    console.error("Error searching articles:", e);
     return [];
   }
-  
-  return data || [];
 }
 
 // Export all functions to be used in the main app
 export {
+  supabase,  // Export the client itself
+  testConnection,
   fetchArticles,
   fetchArticleById,
   createArticle,
