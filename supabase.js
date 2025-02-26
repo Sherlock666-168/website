@@ -17,10 +17,16 @@ if (typeof window.supabase !== 'undefined') {
   const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';
   
-  if (typeof supabaseClient !== 'undefined') {
-    supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
-  } else {
-    console.error("CRITICAL ERROR: supabaseClient is not defined - Supabase CDN script may not be loaded");
+  try {
+    // Check if the global supabase object with createClient is available
+    if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
+      supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    } else {
+      console.error("CRITICAL ERROR: Supabase library not loaded correctly");
+      alert("Database initialization failed. Please check console for details.");
+    }
+  } catch (e) {
+    console.error("Exception in Supabase initialization:", e);
     alert("Database initialization failed. Please check console for details.");
   }
 }
@@ -50,6 +56,8 @@ async function testConnection() {
 
 // Call the test
 testConnection();
+
+// Rest of your code remains the same...
 
 /**
  * Fetch all articles from Supabase
