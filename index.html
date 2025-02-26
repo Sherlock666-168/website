@@ -2106,7 +2106,9 @@
 </script>
 
   <!-- Supabase JS library from CDN -->
-<!-- Supabase CDN - CORRECTED URL -->
+<!-- Replace the current Supabase CDN and initialization scripts with this code -->
+
+<!-- Supabase CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
 
 <!-- Initialization script - runs immediately -->
@@ -2120,8 +2122,13 @@
   
   // Create global variables that other scripts can access
   try {
-    window.supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
-    console.log("Global supabase client created successfully");
+    // The CDN version of Supabase exposes 'supabase' not 'supabaseClient'
+    if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
+      window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+      console.log("Global supabase client created successfully");
+    } else {
+      throw new Error("Supabase library not loaded correctly");
+    }
   } catch (e) {
     console.error("Error creating Supabase client:", e);
     alert("Failed to initialize Supabase. See console for details.");
