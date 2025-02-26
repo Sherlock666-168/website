@@ -3,7 +3,45 @@
 // Supabase client initialization - CORRECT VERSION FOR CDN
 const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';  // Replace with your URL
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';  // Replace with your key
-const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+// const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+
+
+let supabase;
+try {
+  if (SUPABASE_DEBUG) console.log("Initializing Supabase client with:", { url: supabaseUrl, keyLength: supabaseKey.length });
+  
+  // Check if using the global client from CDN or module import
+  if (typeof supabaseClient !== 'undefined') {
+    if (SUPABASE_DEBUG) console.log("Using global supabaseClient from CDN");
+    supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+  } else if (typeof createClient !== 'undefined') {
+    if (SUPABASE_DEBUG) console.log("Using imported createClient function");
+    supabase = createClient(supabaseUrl, supabaseKey);
+  } else {
+    throw new Error("Neither supabaseClient nor createClient is available");
+  }
+  
+  // Test the connection immediately
+  (async function() {
+    try {
+      if (SUPABASE_DEBUG) console.log("Testing Supabase connection...");
+      const { data, error } = await supabase.from('articles').select('id').limit(1);
+      
+      if (error) {
+        console.error("Supabase connection test failed:", error);
+        alert("Database connection error: " + error.message);
+      } else {
+        console.log("Supabase connection successful! Found", data.length, "articles");
+      }
+    } catch (e) {
+      console.error("Error testing Supabase connection:", e);
+    }
+  })();
+  
+} catch (e) {
+  console.error("Error initializing Supabase client:", e);
+}
+
 
 /**
  * Fetch all articles from Supabase
@@ -11,22 +49,29 @@ const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
  * @returns {Promise<Array>} - Array of article objects
  */
 async function fetchArticles(status = null) {
-  let query = supabase.from('articles').select('*');
-  
-  if (status) {
-    query = query.eq('status', status);
-  }
-  
-  const { data, error } = await query.order('date', { ascending: false });
-  
-  if (error) {
-    console.error('Error fetching articles:', error);
+  try {
+    if (SUPABASE_DEBUG) console.log("Fetching articles with status filter:", status);
+    
+    let query = supabase.from('articles').select('*');
+    
+    if (status) {
+      query = query.eq('status', status);
+    }
+    
+    const { data, error } = await query.order('date', { ascending: false });
+    
+    if (error) {
+      console.error("Error fetching articles:", error);
+      return [];
+    }
+    
+    if (SUPABASE_DEBUG) console.log("Fetched articles:", data ? data.length : 0, "results");
+    return data || [];
+  } catch (e) {
+    console.error("Exception fetching articles:", e);
     return [];
   }
-  
-  return data || [];
 }
-
 /**
  * Fetch a single article by ID
  * @param {string} id - Article ID
@@ -52,26 +97,49 @@ async function fetchArticleById(id) {
  * @param {Object} article - Article object
  * @returns {Promise<Object|null>} - Created article or null if failed
  */
+
 async function createArticle(article) {
-  // Ensure we have a unique ID and current date
-  const newArticle = {
-    ...article,
-    id: article.id || Date.now().toString(),
-    date: new Date().toISOString()
-  };
-  
-  const { data, error } = await supabase
-    .from('articles')
-    .insert([newArticle])
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error creating article:', error);
+  try {
+    if (SUPABASE_DEBUG) console.log("Creating article:", article);
+    
+    // Ensure we have a unique ID and current date
+    const newArticle = {
+      ...article,
+      id: article.id || Date.now().toString(),
+      date: new Date().toISOString()
+    };
+    
+    // Log the exact payload being sent
+    if (SUPABASE_DEBUG) console.log("Sending to Supabase:", newArticle);
+    
+    const { data, error } = await supabase
+      .from('articles')
+      .insert([newArticle])
+      .select();
+    
+    if (error) {
+      console.error("Error creating article:", error);
+      // Show user feedback
+      if (typeof showNotification === 'function') {
+        showNotification('Failed to save article: ' + error.message, 'error');
+      } else {
+        alert('Failed to save article: ' + error.message);
+      }
+      return null;
+    }
+    
+    if (SUPABASE_DEBUG) console.log("Article created successfully:", data);
+    return data[0];
+  } catch (e) {
+    console.error("Exception creating article:", e);
+    // Show user feedback
+    if (typeof showNotification === 'function') {
+      showNotification('Error: ' + e.message, 'error');
+    } else {
+      alert('Error: ' + e.message);
+    }
     return null;
   }
-  
-  return data;
 }
 
 /**
