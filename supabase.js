@@ -9,6 +9,54 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 
 let supabase;
+
+// Initialize the client
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    console.log("Initializing Supabase client...");
+    
+    // Check which method is available
+    if (typeof supabaseClient !== 'undefined') {
+      console.log("Using CDN supabaseClient");
+      supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+      window.supabase = supabase; // Also add to window for global access
+    } else {
+      console.error("supabaseClient is not defined! Make sure the Supabase CDN script is loaded.");
+      alert("Supabase client initialization failed. Check console for details.");
+    }
+    
+    // Test connection
+    console.log("Testing Supabase connection...");
+    testConnection();
+    
+  } catch (e) {
+    console.error("Error initializing Supabase:", e);
+    alert("Failed to initialize Supabase: " + e.message);
+  }
+});
+
+// Test Supabase connection
+async function testConnection() {
+  try {
+    if (!supabase) {
+      console.error("Cannot test connection - supabase is not initialized");
+      return;
+    }
+    
+    console.log("Running test query...");
+    const { data, error } = await supabase.from('articles').select('id').limit(1);
+    
+    if (error) {
+      console.error("Connection test failed:", error);
+    } else {
+      console.log("Supabase connection successful!", data);
+    }
+  } catch (e) {
+    console.error("Error testing connection:", e);
+  }
+}
+
+
 try {
   if (SUPABASE_DEBUG) console.log("Initializing Supabase client with:", { url: supabaseUrl, keyLength: supabaseKey.length });
   
