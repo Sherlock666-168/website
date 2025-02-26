@@ -1,0 +1,2795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SherlockAI Space | Personal AI & Tech Explorations</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Sherlock Chu's personal website on AI news, tech breakthroughs, and career reflections.">
+  <meta name="keywords" content="AI, machine learning, product management, personal blog, technology news">
+  <meta name="author" content="Sherlock Chu">
+  
+  <!-- Font Awesome for icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  
+  <style>
+    /* ------------------------------------------------------------------
+       CSS Variables for Theming
+    ------------------------------------------------------------------ */
+    :root {
+      /* Light Mode Colors */
+      --primary-color: #4361ee;
+      --secondary-color: #7209b7;
+      --accent-color: #3bceac;
+      --text-primary: #333;
+      --text-secondary: #666;
+      --bg-primary: #fff;
+      --bg-secondary: #f8f9fa;
+      --bg-card: #fff;
+      --border-color: #e0e0e0;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --code-bg: #f1f1f1;
+    }
+    
+    /* Dark Mode Colors */
+    [data-theme="dark"] {
+      --primary-color: #4cc9f0;
+      --secondary-color: #8a2be2;
+      --accent-color: #3bceac;
+      --text-primary: #f0f0f0;
+      --text-secondary: #c0c0c0;
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-card: #2a2a2a;
+      --border-color: #333;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --code-bg: #2d2d2d;
+    }
+    
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    a:hover {
+      color: var(--secondary-color);
+    }
+    
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    header {
+      background-color: var(--bg-primary);
+      box-shadow: 0 2px 10px var(--shadow-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+      transition: background-color 0.3s ease;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .logo span {
+      color: var(--secondary-color);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 25px;
+    }
+    
+    .nav-links a {
+      font-weight: 600;
+      position: relative;
+      color: var(--text-primary);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    .nav-links a.active::after {
+      width: 100%;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      margin-left: 20px;
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+    
+    .cta-btn {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: #333;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Search Bar */
+    .search-container {
+      padding: 20px 0;
+      background-color: var(--bg-secondary);
+    }
+    
+    .search-form {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 12px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 30px 0 0 30px;
+      font-size: 1rem;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+    
+    .search-button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 0 30px 30px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .search-button:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    /* Featured Posts Section */
+    .featured-posts {
+      padding: 60px 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+    
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .post-card {
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      cursor: pointer;
+    }
+    
+    .post-card.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .post-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px var(--shadow-color);
+    }
+    
+    .card-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .card-content {
+      padding: 20px;
+    }
+    
+    .post-category {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .post-title {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .post-excerpt {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    
+    /* About Section (Homepage) */
+    .about-preview {
+      padding: 60px 0;
+      background-color: var(--bg-secondary);
+    }
+    
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .about-content.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .about-image {
+      flex: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
+    
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .about-text {
+      flex: 1;
+    }
+    
+    .about-text h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    
+    .read-more {
+      display: inline-block;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+    
+    /* Categories Section */
+    .categories {
+      padding: 60px 0;
+    }
+    
+    .category-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .category-card {
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      cursor: pointer;
+    }
+    
+    .category-card.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .category-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+    }
+    
+    .category-card h3 {
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .category-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    
+    .category-link-container {
+      margin-top: auto;
+    }
+    
+    .category-card-link {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .category-card-link:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+      color: white;
+    }
+
+    /* Blog Post Styles */
+    .blog-post {
+      padding: 60px 0;
+    }
+    
+    .post-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .post-header {
+      margin-bottom: 40px;
+    }
+    
+    .post-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+    
+    .post-meta-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+    }
+    
+    .post-date, .post-read-time {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .author-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .author-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .author-info h4 {
+      margin-bottom: 5px;
+    }
+    
+    .author-info p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    
+    .featured-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .post-content {
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    
+    .post-content h2 {
+      font-size: 1.8rem;
+      margin: 40px 0 20px;
+      color: var(--primary-color);
+    }
+    
+    .post-content h3 {
+      font-size: 1.5rem;
+      margin: 30px 0 15px;
+      color: var(--text-primary);
+    }
+    
+    .post-content p {
+      margin-bottom: 20px;
+    }
+    
+    .post-content ul, .post-content ol {
+      margin: 0 0 20px 20px;
+    }
+    
+    .post-content li {
+      margin-bottom: 10px;
+    }
+    
+    .post-content blockquote {
+      border-left: 4px solid var(--primary-color);
+      padding-left: 20px;
+      font-style: italic;
+      margin: 20px 0;
+      color: var(--text-secondary);
+    }
+    
+    /* Code Snippet */
+    .code-container {
+      background-color: var(--code-bg);
+      border-radius: 10px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+    
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px 20px;
+    }
+    
+    .code-title {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .copy-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .copy-button:hover {
+      color: var(--primary-color);
+    }
+    
+    .code-content {
+      padding: 20px;
+      overflow-x: auto;
+    }
+    
+    .code-content pre {
+      margin: 0;
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* Publication Tool Styles */
+    .publication-tool {
+      padding: 60px 0;
+      background-color: var(--bg-secondary);
+    }
+    
+    .publication-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
+    
+    .publication-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .publication-header h2 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .publication-header p {
+      color: var(--text-secondary);
+    }
+    
+    .publication-form {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .form-input, .form-textarea, .form-select {
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      width: 100%;
+    }
+    
+    .form-textarea {
+      min-height: 300px;
+      resize: vertical;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .form-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    
+    .save-draft-btn, .publish-btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .save-draft-btn {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    .save-draft-btn:hover {
+      background-color: var(--border-color);
+    }
+    
+    .publish-btn {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .publish-btn:hover {
+      transform: translateY(-3px);
+      background-color: var(--secondary-color);
+    }
+    
+    /* Articles Management */
+    .articles-management {
+      padding: 60px 0;
+    }
+    
+    .articles-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .articles-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .create-article-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    
+    .create-article-btn:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    .articles-grid {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .article-card {
+      display: flex;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .article-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .article-image {
+      width: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .article-details {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .article-status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+    
+    .status-published {
+      background-color: #4caf50;
+      color: white;
+    }
+    
+    .status-draft {
+      background-color: #ff9800;
+      color: white;
+    }
+    
+    .article-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .article-excerpt {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      flex-grow: 1;
+    }
+    
+    .article-meta {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .article-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .article-action-btn {
+      padding: 5px 10px;
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .article-action-btn:hover {
+      background-color: var(--border-color);
+    }
+    
+    .delete-btn {
+      background-color: #ff5252;
+      color: white;
+    }
+    
+    .delete-btn:hover {
+      background-color: #ff1744;
+    }
+    
+    /* Newsletter Section */
+    .newsletter {
+      padding: 60px 0;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      text-align: center;
+    }
+    
+    .newsletter h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .newsletter p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      font-size: 1rem;
+    }
+    
+    .newsletter-button {
+      background-color: var(--accent-color);
+      color: #333;
+      border: none;
+      padding: 0 25px;
+      border-radius: 0 30px 30px 0;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--bg-secondary);
+      color: var(--text-secondary);
+      padding: 60px 0 20px;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-section h3 {
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-links a {
+      display: inline-block;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    /* Tabs for Publication */
+    .tabs-container {
+      margin-bottom: 30px;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-secondary);
+      position: relative;
+    }
+    
+    .tab.active {
+      color: var(--primary-color);
+    }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -1px;
+      left: 0;
+      background-color: var(--primary-color);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Timeline Component */
+    .timeline-container {
+      max-width: 800px;
+      margin: 40px auto;
+      position: relative;
+    }
+    
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      background: var(--primary-color);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .timeline-date {
+      width: 30%;
+      text-align: right;
+      padding-right: 30px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    .timeline-info {
+      width: 30%;
+      text-align: left;
+      padding-left: 30px;
+    }
+    
+    .timeline-point {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--secondary-color);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    
+    .timeline-point::before {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    /* Animation Styles */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .no-articles-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-style: italic;
+      background-color: var(--bg-secondary);
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    /* Search Results */
+    .search-results {
+      background-color: var(--bg-secondary);
+      padding: 40px 0;
+      display: none;
+    }
+    
+    .search-results-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .search-results-header {
+      margin-bottom: 30px;
+    }
+    
+    .search-results-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .search-results-header p {
+      color: var(--text-secondary);
+    }
+    
+    .search-results-list {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .search-result-item {
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .search-result-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .search-result-category {
+      display: inline-block;
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .search-result-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .search-result-excerpt {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+    }
+    
+    .search-result-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: white;
+      font-weight: 600;
+      max-width: 300px;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .notification-success {
+      background-color: #4caf50;
+    }
+    
+    .notification-error {
+      background-color: #f44336;
+    }
+    
+    /* Success Dialog */
+    .success-dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .success-dialog.show {
+      display: flex;
+    }
+    
+    .success-dialog-content {
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .success-icon {
+      font-size: 3rem;
+      color: #4caf50;
+      margin-bottom: 20px;
+    }
+    
+    .success-dialog h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .success-dialog p {
+      margin-bottom: 25px;
+      color: var(--text-secondary);
+    }
+    
+    .success-dialog-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .dialog-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .primary-btn {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .primary-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+    
+    .secondary-btn {
+      background-color: var(--accent-color);
+      color: #333;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #2ab896;
+      transform: translateY(-3px);
+    }
+    
+    .close-btn {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    .close-btn:hover {
+      background-color: var(--border-color);
+    }
+    
+    /* New Feature: Comments Section */
+    .comments-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .comments-header {
+      margin-bottom: 20px;
+    }
+    
+    .comments-header h3 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .comments-form {
+      margin-bottom: 30px;
+    }
+    
+    .comments-textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      margin-bottom: 15px;
+      min-height: 100px;
+      resize: vertical;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .comments-submit {
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .comments-submit:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    .comments-list {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .comment {
+      background-color: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .comment-author {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .comment-date {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    
+    .comment-content {
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    
+    /* Media Queries */
+    @media screen and (max-width: 992px) {
+      .about-content {
+        flex-direction: column;
+      }
+      .article-image {
+        width: 150px;
+      }
+      .timeline-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 30px;
+      }
+      .timeline-container::before {
+        left: 0;
+        transform: none;
+      }
+      .timeline-point {
+        left: 0;
+        transform: none;
+      }
+      .timeline-date, .timeline-info {
+        width: 100%;
+        text-align: left;
+        padding: 0;
+        margin-bottom: 10px;
+      }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      .article-card {
+        flex-direction: column;
+      }
+      .article-image {
+        width: 100%;
+        height: 150px;
+      }
+      .post-title {
+        font-size: 2rem;
+      }
+    }
+    
+    @media screen and (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .section-title {
+        font-size: 1.5rem;
+      }
+      .post-title {
+        font-size: 1.8rem;
+      }
+      .search-form, .newsletter-form {
+        flex-direction: column;
+      }
+      .search-input, .newsletter-input {
+        border-radius: 30px;
+        margin-bottom: 10px;
+      }
+      .search-button, .newsletter-button {
+        border-radius: 30px;
+        padding: 10px;
+      }
+      .post-meta-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .form-buttons {
+        flex-direction: column;
+      }
+    }
+    
+    /* For the mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-primary);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-menu-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .mobile-nav-links a {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <!-- Updated Site Name -->
+      <a href="#" class="logo" onclick="navigateTo('home-page')">Sherlock<span>AI</span>Space</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link active" data-page="home-page">Home</a></li>
+          <li><a href="#" class="nav-link" data-page="blog-list-page">Blog</a></li>
+          <li><a href="#" class="nav-link" data-page="about-page">About</a></li>
+          <li><a href="#" class="nav-link" data-page="resources-page">Resources</a></li>
+          <li><a href="#" class="nav-link" data-page="case-studies-page">Case Studies</a></li>
+          <li><a href="#" class="nav-link" data-page="contact-page">Contact</a></li>
+          <li><a href="#" class="nav-link" data-page="publication-page">Publish</a></li>
+        </ul>
+      </nav>
+      <div class="header-controls">
+        <button class="theme-toggle" id="theme-toggle">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-menu-close" id="mobile-menu-close">
+      <i class="fas fa-times"></i>
+    </button>
+    <ul class="mobile-nav-links">
+      <li><a href="#" class="mobile-nav-link" data-page="home-page">Home</a></li>
+      <li><a href="#" class="mobile-nav-link" data-page="blog-list-page">Blog</a></li>
+      <li><a href="#" class="mobile-nav-link" data-page="about-page">About</a></li>
+      <li><a href="#" class="mobile-nav-link" data-page="resources-page">Resources</a></li>
+      <li><a href="#" class="mobile-nav-link" data-page="case-studies-page">Case Studies</a></li>
+      <li><a href="#" class="mobile-nav-link" data-page="contact-page">Contact</a></li>
+      <li><a href="#" class="mobile-nav-link" data-page="publication-page">Publish</a></li>
+    </ul>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
+
+  <!-- Main Content - Home Page -->
+  <main id="home-page" class="page">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>Exploring AI, Tech Breakthroughs & My Personal Career Journey</h1>
+        <p>
+          Welcome to my personal platform, where I share AI news, tech discoveries, and 
+          reflections on my ongoing product management journey. I’m Sherlock Chu—glad you’re here!
+        </p>
+        <button onclick="document.getElementById('featured-posts').scrollIntoView({behavior: 'smooth'})" class="cta-btn">
+          Check Out My Recent Posts
+        </button>
+      </div>
+    </section>
+    
+    <!-- Search Section -->
+    <section class="search-container">
+      <div class="container">
+        <form class="search-form" id="search-form">
+          <input type="text" class="search-input" id="search-input" placeholder="Search for AI articles, career insights, or personal projects...">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+    </section>
+    
+    <!-- Featured Posts Section -->
+    <section class="featured-posts" id="featured-posts">
+      <div class="container">
+        <h2 class="section-title">Sherlock’s Latest AI & Tech Posts</h2>
+        <div class="posts-grid" id="featured-posts-grid">
+          <!-- Posts will be loaded here dynamically -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- About Preview Section -->
+    <section class="about-preview">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-image">
+            <img src="/api/placeholder/600/600" alt="Sherlock's Profile Picture">
+          </div>
+          <div class="about-text">
+            <h2>Hi, I'm Sherlock Chu</h2>
+            <p>
+              I'm an MBA candidate at UC Berkeley’s Haas School of Business (Class of 2025),
+              with over five years of experience in AI-driven product management. 
+              I've led teams at Amazon (AGI Org), Alibaba, and also ventured into data science roles 
+              at Xiaohongshu and a SaaS startup. On this site, I'll explore exciting AI trends, 
+              share my personal experiments with machine learning, and reflect on my professional journey.
+            </p>
+            <p>
+              I’m actively seeking new career opportunities in AI product management—if you’d like to connect 
+              or have a project in mind, I'd love to hear from you!
+            </p>
+            <a href="#" class="read-more" data-page="about-page">Get to Know Me Better →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Categories Section -->
+    <section class="categories">
+      <div class="container">
+        <h2 class="section-title">Explore Topics</h2>
+        <div class="category-cards">
+          <div class="category-card" onclick="filterCategory('AI News')">
+            <div class="category-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>AI News</h3>
+            <p>Latest developments, big announcements, and trends shaping the future of AI.</p>
+            <div class="category-link-container">
+              <a href="#" data-page="blog-list-page" data-category="AI News" class="category-card-link">View Articles</a>
+            </div>
+          </div>
+          <div class="category-card" onclick="filterCategory('Agent Technology')">
+            <div class="category-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>Agent Technology</h3>
+            <p>Dive into AI agent architectures, best practices, and real-world use cases.</p>
+            <div class="category-link-container">
+              <a href="#" data-page="blog-list-page" data-category="Agent Technology" class="category-card-link">View Articles</a>
+            </div>
+          </div>
+          <div class="category-card" onclick="filterCategory('Career Development')">
+            <div class="category-icon">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <h3>Career Development</h3>
+            <p>Insights on job hunting, professional growth, and product management lessons learned.</p>
+            <div class="category-link-container">
+              <a href="#" data-page="blog-list-page" data-category="Career Development" class="category-card-link">View Articles</a>
+            </div>
+          </div>
+          <div class="category-card" onclick="filterCategory('Technical Deep Dive')">
+            <div class="category-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3>Technical Deep Dives</h3>
+            <p>Advanced explorations of ML concepts, coding demos, and new tools in the AI ecosystem.</p>
+            <div class="category-link-container">
+              <a href="#" data-page="blog-list-page" data-category="Technical Deep Dive" class="category-card-link">View Articles</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+      <div class="container">
+        <h2>Stay Connected with My AI & Tech Updates</h2>
+        <p>
+          Subscribe for my latest posts on AI breakthroughs, product management lessons, and personal reflections. 
+          No spam—just genuine insights from my ongoing journey in the tech world.
+        </p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+          <button type="submit" class="newsletter-button">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Blog List Page -->
+  <div id="blog-list-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Sherlock’s Blog</h1>
+          <p>
+            Welcome to my collection of articles—covering AI news, product management tips, 
+            personal reflections, and deep dives into technology.
+          </p>
+        </header>
+        <div class="category-filter">
+          <button class="filter-btn active" data-category="all">All</button>
+          <button class="filter-btn" data-category="AI News">AI News</button>
+          <button class="filter-btn" data-category="Agent Technology">Agent Technology</button>
+          <button class="filter-btn" data-category="Career Development">Career Development</button>
+          <button class="filter-btn" data-category="Technical Deep Dive">Technical Deep Dives</button>
+        </div>
+        <div class="posts-grid" id="all-posts-grid">
+          <!-- Posts will be loaded here dynamically -->
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Publication Tool Page -->
+  <div id="publication-page" class="page" style="display: none;">
+    <section class="publication-tool">
+      <div class="container">
+        <div class="publication-container">
+          <header class="publication-header">
+            <h2>Create and Publish Content</h2>
+            <p>Share your insights on AI, tech, and more.</p>
+          </header>
+          <div class="tabs-container">
+            <div class="tabs">
+              <div class="tab active" data-tab="new-article">New Article</div>
+              <div class="tab" data-tab="my-articles">My Articles</div>
+            </div>
+          </div>
+          <div class="tab-content active" id="new-article-content">
+            <form id="publication-form" class="publication-form">
+              <input type="hidden" id="article-id">
+              <div class="form-group">
+                <label for="article-title" class="form-label">Title</label>
+                <input type="text" id="article-title" class="form-input" placeholder="Enter article title" required>
+              </div>
+              <div class="form-group">
+                <label for="article-category" class="form-label">Category</label>
+                <select id="article-category" class="form-select" required>
+                  <option value="">Select a category</option>
+                  <option value="AI News">AI News</option>
+                  <option value="Agent Technology">Agent Technology</option>
+                  <option value="Career Development">Career Development</option>
+                  <option value="Technical Deep Dive">Technical Deep Dive</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="article-excerpt" class="form-label">Excerpt</label>
+                <input type="text" id="article-excerpt" class="form-input" placeholder="A brief summary of your article (max 150 characters)" required>
+              </div>
+              <div class="form-group">
+                <label for="article-content" class="form-label">Content</label>
+                <textarea id="article-content" class="form-textarea" placeholder="Write your article here. You can use markdown for formatting." required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="article-image" class="form-label">Featured Image URL</label>
+                <input type="text" id="article-image" class="form-input" placeholder="Enter image URL or leave blank for default">
+              </div>
+              <div class="form-buttons">
+                <button type="button" id="save-draft-btn" class="save-draft-btn">Save as Draft</button>
+                <button type="button" id="publish-btn" class="publish-btn">Publish Article</button>
+              </div>
+            </form>
+          </div>
+          <div class="tab-content" id="my-articles-content">
+            <div class="articles-grid" id="articles-list">
+              <!-- Articles will be loaded here dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Success Message Dialog -->
+  <div id="success-dialog" class="success-dialog">
+    <div class="success-dialog-content">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3>Article Published Successfully!</h3>
+      <p>Your article is now live on the site.</p>
+      <div class="success-dialog-buttons">
+        <button id="view-article-btn" class="dialog-btn primary-btn">View Article</button>
+        <button id="go-home-btn" class="dialog-btn secondary-btn">Go to Home Page</button>
+        <button id="close-dialog-btn" class="dialog-btn close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Single Blog Post Page -->
+  <div id="blog-post-page" class="page" style="display: none;">
+    <article class="blog-post" data-article-id="">
+      <div class="container post-container">
+        <header class="post-header">
+          <span class="post-category" id="post-category">Category</span>
+          <h1 class="post-title" id="post-title">Article Title</h1>
+          <div class="post-meta-container">
+            <div class="post-date">
+              <i class="far fa-calendar-alt"></i>
+              <span id="post-date">Date</span>
+            </div>
+            <div class="post-read-time">
+              <i class="far fa-clock"></i>
+              <span id="post-read-time">Read time</span>
+            </div>
+          </div>
+          <div class="author">
+            <div class="author-image">
+              <img src="/api/placeholder/100/100" alt="Author">
+            </div>
+            <div class="author-info">
+              <h4>Sherlock Chu</h4>
+              <p>AI Product Manager & Tech Enthusiast</p>
+            </div>
+          </div>
+        </header>
+        <img src="/api/placeholder/800/400" alt="Featured Image" class="featured-image" id="post-image">
+        <div class="post-content" id="post-content">
+          <!-- Post content will be loaded here dynamically -->
+        </div>
+        
+        <!-- AI Agents Timeline (for certain articles if needed) -->
+        <div class="timeline-container" id="ai-agents-timeline" style="display: none;">
+          <h2>Evolution of AI Agents Timeline</h2>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">1960s-1970s</div>
+              <div class="timeline-info">
+                <h3>Rule-Based Systems</h3>
+                <p>Early AI agents relied on explicit if-then rules programmed by humans.</p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">1980s-1990s</div>
+              <div class="timeline-info">
+                <h3>Expert Systems</h3>
+                <p>Knowledge-based systems that emulated human expertise in specific domains.</p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2000s</div>
+              <div class="timeline-info">
+                <h3>Statistical Learning</h3>
+                <p>Agents began incorporating machine learning and statistical methods.</p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2010s</div>
+              <div class="timeline-info">
+                <h3>Deep Learning</h3>
+                <p>Neural networks ascended, enabling breakthroughs in speech, vision, and NLP.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Additional timeline items as needed -->
+        </div>
+      </div>
+    </article>
+  </div>
+  
+  <!-- Resources Page -->
+  <div id="resources-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Resources</h1>
+          <p>Handpicked articles, reports, and summaries to expand your knowledge.</p>
+        </header>
+        <div class="posts-grid" id="resources-grid">
+          <!-- Insert the 2-page PDF summary here as static text -->
+          <article class="post-card fade-in" style="padding:20px;">
+            <h2>2025 AI Agent Tech Stack: My Two-Page Summary</h2>
+            <p><em>
+              I recently analyzed a comprehensive industry report on modern AI agent stacks. 
+              Here’s my concise summary of the core layers, major players, and top trends shaping AI in 2025.
+            </em></p>
+            <p>
+              <strong>1. Overview of the AI Agent Stack:</strong><br>
+              AI agents are structured in layered stacks. Each layer plays a distinct role 
+              in enabling autonomous, AI-driven solutions. A typical stack includes:
+              (1) Frontend (User Interface), 
+              (2) Orchestration (managing prompt flows and tool usage), 
+              (3) Foundational Models (the “brain”), 
+              (4) Tools (plugins and external APIs), 
+              (5) Memory (often via vector databases), 
+              (6) Traditional Databases (structured knowledge/data), 
+              (7) Observability (monitoring), 
+              (8) Infrastructure (cloud orchestration), 
+              and (9) Hardware (GPUs, specialized chips).
+              By coordinating each layer—retrieving relevant data, prompting a large model, 
+              and calling external services—agents deliver end-to-end intelligent experiences.
+            </p>
+            <p>
+              <strong>2. Major Players & Competitive Landscape:</strong><br>
+              In the frontend layer, frameworks like Streamlit and Gradio make AI UI creation fast, 
+              while enterprise players embed agents in Slack or Teams. Orchestration libraries 
+              (e.g., LangChain, LlamaIndex) handle prompt chaining and tool integration. 
+              Foundational Models see a fierce race among OpenAI (GPT-4), Google (PaLM/Gemini), 
+              Anthropic (Claude), and open-source communities (Meta’s LLaMA 2, etc.). 
+              Tools are accessed via plugin ecosystems (OpenAI Plugins) or services like Zapier. 
+              Memory solutions (Zep, Mem0) store context, while Observability platforms (LangSmith, Helicone, Arize) 
+              track and debug agent workflows. Cloud providers (AWS, Azure, GCP) power the infrastructure, 
+              with NVIDIA dominating GPU hardware but facing challengers like AMD or Google’s TPUs.
+            </p>
+            <p>
+              <strong>3. Technological Trends & Innovations:</strong><br>
+              - <em>Frontend UI/UX:</em> Rise of low-code/no-code chat builders and multimodal interfaces (voice, AR).<br>
+              - <em>Memory & Retrieval:</em> Hybrid retrieval, summarization, knowledge graphs, 
+                all aiming to handle larger context windows with more accuracy.<br>
+              - <em>Tools Ecosystem:</em> Standardized plugin interfaces, dynamic tool selection, 
+                and stricter permissioning for safe usage.<br>
+              - <em>Observability:</em> Converging with evaluation for real-time analytics and quality checks; 
+                self-hosted options address privacy concerns.<br>
+              - <em>Orchestration:</em> Multi-agent setups, “reflection loops,” and auto-chaining to reduce manual prompt engineering.<br>
+              - <em>Foundational Models:</em> Larger context windows (100K tokens+), 
+                open-source performance gains, and domain-specific fine-tuning. 
+                Multimodal models are poised to transform how AI interacts with text, images, and beyond.<br>
+              - <em>Databases:</em> Vector search merges into mainstream SQL/NoSQL solutions, 
+                simplifying data pipelines for AI.<br>
+              - <em>Infrastructure & Hardware:</em> Specialized GPU/TPU instances, 
+                optimized inference servers, and cost-conscious scaling solutions.
+            </p>
+            <p>
+              <strong>4. Market Drivers & User Needs:</strong><br>
+              - <em>Ease of Integration:</em> Devs want frictionless ways to embed AI into web and enterprise workflows.<br>
+              - <em>Performance & Cost:</em> High compute expenses drive demand for more efficient or smaller models.<br>
+              - <em>Security & Compliance:</em> On-prem solutions, encrypted memory, and compliance certifications 
+                are critical for regulated sectors.<br>
+              - <em>Customization & Control:</em> Fine-tuning, brand alignment, and strong user-level permission controls.<br><br>
+              Overall, we see an expanding ecosystem of specialized layers that form a cohesive pipeline. 
+              As AI adoption accelerates, solutions that can be flexibly integrated, carefully observed, 
+              and reliably scaled will lead. Open-source LLMs are eroding the gap with proprietary models, 
+              offering lower-cost and private deployments—placing more pressure on commercial providers. 
+              We’re moving into a new era of “agentic” AI, where software can autonomously plan, reason, 
+              and interact with the world to accomplish tasks with minimal human oversight. 
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Case Studies Page -->
+  <div id="case-studies-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Case Studies</h1>
+          <p>In-depth examples and real-world applications of AI and product strategy.</p>
+        </header>
+        <div class="posts-grid" id="case-studies-grid">
+          <!-- Content or dynamic loading here -->
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- About Page -->
+  <div id="about-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>About Sherlock</h1>
+        </header>
+        <p>
+          My name is Sherlock Chu. I’m currently pursuing my MBA at UC Berkeley’s Haas School of Business (Class of 2025), 
+          focusing on product strategy and AI innovation. Before grad school, I spent several years in large tech and startup environments:
+        </p>
+        <ul>
+          <li><strong>Amazon (AGI Org):</strong> As a Technical Product Manager Intern, I built an LLM-powered video search feature for NextGen Alexa, 
+            boosting user engagement by 25% and delivering next-generation conversational experiences.</li>
+          <li><strong>Alibaba Group:</strong> I led cross-functional teams to develop merchant-facing AI solutions, driving $2.3B annual GMV growth 
+            and introducing features that bolstered SMB success. </li>
+          <li><strong>Xiaohongshu:</strong> I managed data-driven growth and monetization strategies for a rapidly expanding social media platform, 
+            helping daily active users soar to over 4M.</li>
+          <li><strong>Athentek:</strong> At a 40-person SaaS startup, I worked as a Machine Learning Engineer, 
+            enhancing foot traffic analytics by 25% and generating $0.4M in additional software sales.</li>
+        </ul>
+        <p>
+          I’m passionate about bridging technical know-how (Python, Java, data analysis, ML) with user-centric design. 
+          Outside of building products, I’m also a licensed snowboarding coach—so if I’m not prototyping or analyzing data, 
+          I’m probably on the slopes.
+        </p>
+        <p>
+          As I approach graduation, I’m exploring opportunities in AI product management. 
+          If you’d like to collaborate, swap ideas, or discuss potential roles, feel free to contact me below!
+        </p>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Resources or Additional Pages Hidden Here (already used resources-page) -->
+  
+  <!-- Contact Page -->
+  <div id="contact-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Contact</h1>
+          <p>Feel free to reach out if you have opportunities, collaboration ideas, or simply want to say hello!</p>
+        </header>
+        <!-- You can add a form or your email contact here -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Scripts and supporting JS code remain the same -->
+  <script>
+  /***********************************************************************
+   * 1) Global memory storage for articles (including sample articles)
+   ***********************************************************************/
+  const memoryStorage = {
+    articles: [
+      {
+        id: '1',
+        title: 'The Evolution of AI Agents: From Rules to Autonomy',
+        category: 'AI Trends',
+        excerpt: 'Exploring the journey of AI agents from simple rule-based systems to autonomous decision-makers powered by modern LLMs.',
+        content: `
+          <p>The concept of AI agents has undergone a remarkable evolution over the past few decades. From simple rule-based systems to today's sophisticated autonomous decision-makers powered by large language models, the journey reflects broader advancements in artificial intelligence and machine learning. This post explores this fascinating evolution and what it means for the future of AI products.</p>
+          <h2>The Beginning: Rule-Based Agents</h2>
+          <p>The earliest AI agents were relatively simple rule-based systems that operated within clearly defined parameters. These systems followed explicit if-then logic programmed by humans to handle specific scenarios.</p>
+          <p>The strengths of rule-based agents were their predictability and transparency. When properly programmed, they executed their limited functions reliably and their decision-making process could be easily traced and understood. However, they struggled with ambiguity, couldn't handle edge cases well, and required extensive programming for even moderately complex tasks.</p>
+          <blockquote>
+            "The challenge with rule-based agents was never getting them to follow rules—it was determining all the rules they would ever need to follow in a complex environment." — Marvin Minsky
+          </blockquote>
+          <p>Classic examples of rule-based agents include early customer service chatbots and expert systems like MYCIN (1970s) that assisted doctors with diagnosing bacterial infections. These systems were useful but clearly artificial in their interactions and limited in their capabilities.</p>
+        `,
+        imageUrl: '/api/placeholder/800/400',
+        status: 'published',
+        date: '2023-06-15T10:30:00Z',
+        showTimeline: true,
+        readTime: '8 min read',
+        comments: []
+      },
+      {
+        id: '2',
+        title: 'Product Management Considerations for Agent-Based AI Systems',
+        category: 'Product Management',
+        excerpt: 'Key product management strategies for successfully developing, deploying, and scaling AI agent systems.',
+        content: `
+          <p>As AI agents become increasingly sophisticated and autonomous, product managers face unique challenges and opportunities in bringing these systems to market. This article explores essential strategies and considerations for effectively managing agent-based AI products throughout their lifecycle.</p>
+          <h2>Understanding the Agent Paradigm</h2>
+          <p>AI agents represent a fundamental shift from traditional software products. Unlike conventional applications that execute predictable functions in response to specific inputs, agents can:</p>
+          <ul>
+            <li>Act autonomously based on goals rather than explicit instructions</li>
+            <li>Learn from interactions and improve over time</li>
+            <li>Make decisions with varying degrees of human oversight</li>
+            <li>Integrate with multiple systems and tools to accomplish tasks</li>
+          </ul>
+          <p>This paradigm shift requires product managers to adapt their approach to discovery, planning, execution, and measurement.</p>
+        `,
+        imageUrl: '/api/placeholder/800/400',
+        status: 'published',
+        date: '2023-05-28T09:15:00Z',
+        showTimeline: false,
+        readTime: '10 min read',
+        comments: []
+      },
+      {
+        id: '3',
+        title: 'Technical Deep Dive: How RAG Enhances AI Agent Capabilities',
+        category: 'Technical Deep Dive',
+        excerpt: 'An in-depth exploration of Retrieval-Augmented Generation and how it expands the knowledge and capabilities of AI agents.',
+        content: `
+          <p>Retrieval-Augmented Generation (RAG) has emerged as one of the most important architectural patterns for enhancing the capabilities of AI agents. This technical deep dive explores how RAG works, various implementation approaches, and best practices for integrating RAG into agent systems.</p>
+          <h2>Understanding the RAG Architecture</h2>
+          <p>Retrieval-Augmented Generation combines information retrieval with generative AI to create systems that can access, synthesize, and apply external knowledge. At its core, RAG addresses one of the fundamental limitations of large language models: their reliance on knowledge embedded in parameters during training.</p>
+          <p>A basic RAG pipeline consists of three main components:</p>
+          <ol>
+            <li><strong>Knowledge Base</strong>: A repository of documents, data, or information sources</li>
+            <li><strong>Retrieval System</strong>: Mechanisms to identify and retrieve relevant information from the knowledge base</li>
+            <li><strong>Generation Model</strong>: A large language model that synthesizes retrieved information with its parametric knowledge</li>
+          </ol>
+        `,
+        imageUrl: '/api/placeholder/800/400',
+        status: 'published',
+        date: '2023-04-10T14:20:00Z',
+        showTimeline: false,
+        readTime: '12 min read',
+        comments: []
+      }
+    ],
+    theme: 'light'
+  };
+
+  /***********************************************************************
+   * 2) Basic Theme Toggle, Mobile Menu, and Navigation Router
+   ***********************************************************************/
+  const body = document.body;
+  const themeToggle = document.getElementById('theme-toggle');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+  // Apply stored theme on load
+  if (memoryStorage.theme === 'dark') {
+    body.setAttribute('data-theme', 'dark');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+
+  // Toggle theme button
+  themeToggle.addEventListener('click', () => {
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.removeAttribute('data-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      memoryStorage.theme = 'light';
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      memoryStorage.theme = 'dark';
+    }
+  });
+
+  // Mobile menu controls
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.add('active');
+  });
+  mobileMenuClose.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+  });
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+  });
+
+  function navigateTo(pageId) {
+    showPage(pageId);
+  }
+
+  function showPage(pageId) {
+    // Hide all .page elements
+    document.querySelectorAll('.page').forEach(page => {
+      page.style.display = 'none';
+    });
+    // Show the chosen page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+      targetPage.style.display = 'block';
+      window.scrollTo(0, 0);
+    } else {
+      console.warn('Page not found:', pageId);
+      // fallback to home if not found
+      document.getElementById('home-page').style.display = 'block';
+    }
+    // Update active nav link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('data-page') === pageId) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  function initRouter() {
+    // default to home page
+    navigateTo('home-page');
+  }
+
+  /***********************************************************************
+   * 3) Utility Functions
+   ***********************************************************************/
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  function calculateReadTime(content) {
+    // average ~200 words/min
+    const wordCount = (content.match(/\b\w+\b/g) || []).length;
+    const minutes = Math.ceil(wordCount / 200);
+    return `${minutes} min read`;
+  }
+
+  function loadArticlesFromStorage() {
+    // for now, just returns memoryStorage.articles directly
+    return memoryStorage.articles;
+  }
+
+  /***********************************************************************
+   * 4) Display Featured & All Articles
+   ***********************************************************************/
+  function displayArticles() {
+    const articles = loadArticlesFromStorage();
+    const publishedArticles = articles.filter(a => a.status === 'published');
+
+    // Featured
+    const featuredPostsGrid = document.getElementById('featured-posts-grid');
+    if (featuredPostsGrid) {
+      featuredPostsGrid.innerHTML = '';
+      if (publishedArticles.length === 0) {
+        featuredPostsGrid.innerHTML = '<p class="no-articles-message">No published articles yet. Create your first article in Publish!</p>';
+      } else {
+        const sortedArticles = [...publishedArticles].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const featured = sortedArticles.slice(0, 3);
+        featured.forEach(article => {
+          const card = document.createElement('article');
+          card.className = 'post-card';
+          card.innerHTML = `
+            <div class="card-image" style="background-image: url('${article.imageUrl}');"></div>
+            <div class="card-content">
+              <span class="post-category">${article.category}</span>
+              <h3 class="post-title">${article.title}</h3>
+              <p class="post-excerpt">${article.excerpt}</p>
+              <div class="post-meta">
+                <span>${formatDate(article.date)}</span>
+                <span>${article.readTime || calculateReadTime(article.content)}</span>
+              </div>
+            </div>
+          `;
+          card.addEventListener('click', () => {
+            loadArticle(article.id);
+            navigateTo('blog-post-page');
+          });
+          featuredPostsGrid.appendChild(card);
+        });
+        setTimeout(() => {
+          document.querySelectorAll('.post-card').forEach(c => c.classList.add('fade-in'));
+        }, 100);
+      }
+    }
+
+    // All Blog List
+    const allPostsGrid = document.getElementById('all-posts-grid');
+    if (allPostsGrid) {
+      allPostsGrid.innerHTML = '';
+      if (publishedArticles.length === 0) {
+        allPostsGrid.innerHTML = '<p class="no-articles-message">No published articles yet. Create your first article in Publish!</p>';
+      } else {
+        const sortedAll = [...publishedArticles].sort((a, b) => new Date(b.date) - new Date(a.date));
+        sortedAll.forEach(article => {
+          const card = document.createElement('article');
+          card.className = 'post-card';
+          card.setAttribute('data-category', article.category);
+          card.innerHTML = `
+            <div class="card-image" style="background-image: url('${article.imageUrl}');"></div>
+            <div class="card-content">
+              <span class="post-category">${article.category}</span>
+              <h3 class="post-title">${article.title}</h3>
+              <p class="post-excerpt">${article.excerpt}</p>
+              <div class="post-meta">
+                <span>${formatDate(article.date)}</span>
+                <span>${article.readTime || calculateReadTime(article.content)}</span>
+              </div>
+            </div>
+          `;
+          card.addEventListener('click', () => {
+            loadArticle(article.id);
+            navigateTo('blog-post-page');
+          });
+          allPostsGrid.appendChild(card);
+        });
+      }
+    }
+
+    // My Articles Tab
+    const articlesList = document.getElementById('articles-list');
+    if (articlesList) {
+      articlesList.innerHTML = '';
+      if (articles.length === 0) {
+        articlesList.innerHTML = '<p class="no-articles-message">No articles yet. Create your first article!</p>';
+        return;
+      }
+      // Sort: published first, then by date
+      articles.sort((a, b) => {
+        if (a.status !== b.status) {
+          return a.status === 'published' ? -1 : 1;
+        }
+        return new Date(b.date) - new Date(a.date);
+      });
+      articles.forEach(article => {
+        const aDate = formatDate(article.date);
+        const card = document.createElement('div');
+        card.className = 'article-card';
+        card.innerHTML = `
+          <div class="article-image" style="background-image: url('${article.imageUrl}');"></div>
+          <div class="article-details">
+            <span class="article-status status-${article.status}">${article.status === 'published' ? 'Published' : 'Draft'}</span>
+            <h3 class="article-title">${article.title}</h3>
+            <p class="article-excerpt">${article.excerpt}</p>
+            <div class="article-meta">
+              ${
+                article.status === 'published'
+                ? `Published on: ${aDate}`
+                : `Last edited: ${aDate}`
+              }
+            </div>
+            <div class="article-actions">
+              <button class="article-action-btn edit-btn" data-id="${article.id}">Edit</button>
+              ${
+                article.status === 'published'
+                ? `<button class="article-action-btn view-btn" data-id="${article.id}">View</button>`
+                : `<button class="article-action-btn publish-btn" data-id="${article.id}">Publish</button>`
+              }
+              <button class="article-action-btn delete-btn" data-id="${article.id}">Delete</button>
+            </div>
+          </div>
+        `;
+        articlesList.appendChild(card);
+      });
+
+      // Attach listeners
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          editArticle(btn.getAttribute('data-id'));
+        });
+      });
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          loadArticle(btn.getAttribute('data-id'));
+          navigateTo('blog-post-page');
+        });
+      });
+      document.querySelectorAll('.publish-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          publishDraft(btn.getAttribute('data-id'));
+        });
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          if (confirm('Are you sure you want to delete this article?')) {
+            deleteArticle(btn.getAttribute('data-id'));
+          }
+        });
+      });
+    }
+  }
+
+  /***********************************************************************
+   * 5) Updated Code from ai-insights-blog-fixed-js(1).js
+   ***********************************************************************/
+
+  // Load Single Article
+  function loadArticle(articleId) {
+    const articles = loadArticlesFromStorage();
+    const article = articles.find(a => a.id === articleId);
+    if (!article) {
+      showNotification('Article not found', 'error');
+      return;
+    }
+    // Set data-article-id for the comments to know which article
+    const blogPost = document.querySelector('.blog-post');
+    if (blogPost) {
+      blogPost.setAttribute('data-article-id', articleId);
+    }
+    // Populate
+    document.getElementById('post-category').textContent = article.category;
+    document.getElementById('post-title').textContent = article.title;
+    document.getElementById('post-date').textContent = formatDate(article.date);
+    document.getElementById('post-read-time').textContent = article.readTime || calculateReadTime(article.content);
+    document.getElementById('post-image').src = article.imageUrl;
+    document.getElementById('post-content').innerHTML = article.content;
+    // Timeline show/hide
+    const timeline = document.getElementById('ai-agents-timeline');
+    if (timeline) {
+      timeline.style.display = article.showTimeline ? 'block' : 'none';
+    }
+    // Load comments
+    loadComments(article);
+  }
+
+  // Load comments for an article
+  function loadComments(article) {
+    const commentsList = document.getElementById('comments-list');
+    if (!commentsList) return;
+    commentsList.innerHTML = '';
+    if (!article.comments || article.comments.length === 0) {
+      commentsList.innerHTML = '<p>No comments yet. Be the first to comment!</p>';
+      return;
+    }
+    article.comments.forEach(comment => {
+      const cEl = document.createElement('div');
+      cEl.className = 'comment';
+      cEl.innerHTML = `
+        <div class="comment-header">
+          <span class="comment-author">${comment.author}</span>
+          <span class="comment-date">${formatDate(comment.date)}</span>
+        </div>
+        <div class="comment-content">
+          ${comment.content}
+        </div>
+      `;
+      commentsList.appendChild(cEl);
+    });
+  }
+
+  // Add a new comment
+  function addComment(articleId) {
+    const commentText = document.getElementById('comment-text').value.trim();
+    if (!commentText) {
+      showNotification('Please enter a comment', 'error');
+      return;
+    }
+    const articles = loadArticlesFromStorage();
+    const idx = articles.findIndex(a => a.id === articleId);
+    if (idx === -1) {
+      showNotification('Article not found', 'error');
+      return;
+    }
+    const newComment = {
+      id: Date.now().toString(),
+      author: 'Guest User',
+      date: new Date().toISOString(),
+      content: commentText
+    };
+    if (!memoryStorage.articles[idx].comments) {
+      memoryStorage.articles[idx].comments = [];
+    }
+    memoryStorage.articles[idx].comments.push(newComment);
+    loadComments(memoryStorage.articles[idx]);
+    document.getElementById('comment-text').value = '';
+    showNotification('Comment added successfully', 'success');
+  }
+
+  // Direct publish function
+  function publishArticle() {
+    console.log('Publishing article');
+    const title = document.getElementById('article-title').value.trim();
+    const category = document.getElementById('article-category').value;
+    const excerpt = document.getElementById('article-excerpt').value.trim();
+    const content = document.getElementById('article-content').value.trim();
+    const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
+    if (!title || !category || !excerpt || !content) {
+      showNotification('Please fill out all required fields', 'error');
+      return;
+    }
+    const newArticle = {
+      id: Date.now().toString(),
+      title,
+      category,
+      excerpt,
+      content: formatContentAsHtml(content),
+      imageUrl,
+      status: 'published',
+      date: new Date().toISOString(),
+      readTime: calculateReadTime(content),
+      comments: []
+    };
+    console.log('Creating new article:', newArticle);
+    memoryStorage.articles.push(newArticle);
+    displayArticles();
+    // Reset form
+    document.getElementById('article-title').value = '';
+    document.getElementById('article-category').value = '';
+    document.getElementById('article-excerpt').value = '';
+    document.getElementById('article-content').value = '';
+    document.getElementById('article-image').value = '';
+    // Show success
+    showPublishSuccessDialog(newArticle);
+  }
+
+  // Publish a draft
+  function publishDraft(id) {
+    const idx = memoryStorage.articles.findIndex(a => a.id === id);
+    if (idx === -1) return;
+    memoryStorage.articles[idx].status = 'published';
+    memoryStorage.articles[idx].date = new Date().toISOString();
+    showPublishSuccessDialog(memoryStorage.articles[idx]);
+    displayArticles();
+  }
+
+  // Delete article
+  function deleteArticle(id) {
+    memoryStorage.articles = memoryStorage.articles.filter(a => a.id !== id);
+    displayArticles();
+    showNotification('Article deleted successfully', 'success');
+  }
+
+  // Edit an article
+  function editArticle(id) {
+    const article = memoryStorage.articles.find(a => a.id === id);
+    if (!article) return;
+    // Switch to New Article tab
+    document.querySelector('[data-tab="new-article"]').click();
+    // Fill form
+    document.getElementById('article-id').value = article.id;
+    document.getElementById('article-title').value = article.title;
+    document.getElementById('article-category').value = article.category;
+    document.getElementById('article-excerpt').value = article.excerpt;
+    document.getElementById('article-content').value = article.content.replace(/<[^>]*>/g, '');
+    document.getElementById('article-image').value = article.imageUrl;
+    // Update button text
+    document.getElementById('publish-btn').textContent = 'Update Article';
+    document.getElementById('save-draft-btn').textContent = 'Save Changes as Draft';
+  }
+
+  // Show notification
+  function showNotification(message, type) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = 'notification';
+    notification.classList.add(`notification-${type}`);
+    notification.classList.add('show');
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+
+  // Success dialog after publishing
+  function showPublishSuccessDialog(article) {
+    console.log('Showing success dialog for article:', article.title);
+    const successDialog = document.getElementById('success-dialog');
+    const viewButton = document.getElementById('view-article-btn');
+    const homeButton = document.getElementById('go-home-btn');
+    const closeButton = document.getElementById('close-dialog-btn');
+    viewButton.onclick = () => {
+      successDialog.classList.remove('show');
+      loadArticle(article.id);
+      navigateTo('blog-post-page');
+    };
+    homeButton.onclick = () => {
+      successDialog.classList.remove('show');
+      navigateTo('home-page');
+    };
+    closeButton.onclick = () => {
+      successDialog.classList.remove('show');
+      document.querySelector('[data-tab="my-articles"]').click();
+    };
+    successDialog.classList.add('show');
+  }
+
+  // Format text content to HTML
+  function formatContentAsHtml(content) {
+    let html = '';
+    const paragraphs = content.split(/\n\n+/);
+    paragraphs.forEach(par => {
+      par = par.trim();
+      if (!par) return;
+      if (par.startsWith('# ')) {
+        html += `<h2>${par.substring(2)}</h2>`;
+      } else if (par.startsWith('## ')) {
+        html += `<h3>${par.substring(3)}</h3>`;
+      } else if (par.startsWith('* ') || par.startsWith('- ')) {
+        html += '<ul>';
+        const items = par.split(/\n/);
+        items.forEach(item => {
+          const trimmed = item.trim();
+          if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+            html += `<li>${trimmed.substring(2)}</li>`;
+          }
+        });
+        html += '</ul>';
+      } else if (/^\d+\.\s/.test(par)) {
+        html += '<ol>';
+        const items = par.split(/\n/);
+        items.forEach(item => {
+          const trimmed = item.trim();
+          if (/^\d+\.\s/.test(trimmed)) {
+            html += `<li>${trimmed.substring(trimmed.indexOf(' ') + 1)}</li>`;
+          }
+        });
+        html += '</ol>';
+      } else if (par.startsWith('>')) {
+        html += `<blockquote>${par.substring(1).trim()}</blockquote>`;
+      } else {
+        html += `<p>${par}</p>`;
+      }
+    });
+    return html;
+  }
+
+  // Simple Search
+  function searchArticles(query) {
+    const articles = loadArticlesFromStorage().filter(a => a.status === 'published');
+    query = query.toLowerCase();
+    return articles.filter(a =>
+      a.title.toLowerCase().includes(query) ||
+      a.content.toLowerCase().includes(query) ||
+      a.excerpt.toLowerCase().includes(query) ||
+      a.category.toLowerCase().includes(query)
+    );
+  }
+
+  function displaySearchResults(results, query) {
+    const searchResultsList = document.getElementById('search-results-list');
+    const searchQuery = document.getElementById('search-query');
+    if (searchQuery) {
+      searchQuery.textContent = query;
+    }
+    if (searchResultsList) {
+      searchResultsList.innerHTML = '';
+      if (results.length === 0) {
+        searchResultsList.innerHTML = '<p>No results found for your search. Please try different keywords.</p>';
+        return;
+      }
+      results.forEach(article => {
+        const div = document.createElement('div');
+        div.className = 'search-result-item';
+        div.innerHTML = `
+          <span class="search-result-category">${article.category}</span>
+          <h3 class="search-result-title">${article.title}</h3>
+          <p class="search-result-excerpt">${article.excerpt}</p>
+          <div class="search-result-meta">
+            <span>${formatDate(article.date)}</span>
+            <span>${article.readTime || calculateReadTime(article.content)}</span>
+          </div>
+        `;
+        div.addEventListener('click', () => {
+          loadArticle(article.id);
+          navigateTo('blog-post-page');
+        });
+        searchResultsList.appendChild(div);
+      });
+    }
+  }
+
+  // Category Filtering
+  function setupCategoryFilter() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const category = btn.getAttribute('data-category');
+        const cards = document.querySelectorAll('#all-posts-grid .post-card');
+        cards.forEach(card => {
+          if (category === 'all' || card.getAttribute('data-category') === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+    // For category links
+    document.querySelectorAll('.category-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const cat = link.getAttribute('data-category');
+        filterCategory(cat);
+      });
+    });
+  }
+
+  function filterCategory(category) {
+    navigateTo('blog-list-page');
+    setTimeout(() => {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(b => {
+        if (b.getAttribute('data-category') === category) {
+          b.click();
+        }
+      });
+    }, 100);
+  }
+
+  // Tab Functionality
+  function setupTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    if (tabs.length > 0) {
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-content`).classList.add('active');
+        });
+      });
+    }
+  }
+
+  // Fade In on Scroll
+  function fadeInOnScroll() {
+    const elements = document.querySelectorAll('.post-card:not(.fade-in), .category-card:not(.fade-in), .about-content:not(.fade-in)');
+    elements.forEach(el => {
+      const top = el.getBoundingClientRect().top;
+      const screenPosition = window.innerHeight;
+      if (top < screenPosition - 100) {
+        el.classList.add('fade-in');
+      }
+    });
+  }
+
+  // Save Draft
+  function saveDraft() {
+    const title = document.getElementById('article-title').value.trim();
+    const category = document.getElementById('article-category').value;
+    const excerpt = document.getElementById('article-excerpt').value.trim();
+    const content = document.getElementById('article-content').value.trim();
+    const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
+    const articleId = document.getElementById('article-id').value;
+    if (!title) {
+      showNotification('Please enter a title for your article', 'error');
+      return;
+    }
+    if (articleId) {
+      // Update existing
+      const idx = memoryStorage.articles.findIndex(a => a.id === articleId);
+      if (idx !== -1) {
+        memoryStorage.articles[idx] = {
+          ...memoryStorage.articles[idx],
+          title,
+          category,
+          excerpt,
+          content: formatContentAsHtml(content),
+          imageUrl,
+          status: 'draft',
+          date: new Date().toISOString()
+        };
+      }
+    } else {
+      // New draft
+      const newDraft = {
+        id: Date.now().toString(),
+        title,
+        category,
+        excerpt,
+        content: formatContentAsHtml(content),
+        imageUrl,
+        status: 'draft',
+        date: new Date().toISOString(),
+        comments: []
+      };
+      memoryStorage.articles.push(newDraft);
+    }
+    // Reset
+    document.getElementById('article-id').value = '';
+    document.getElementById('article-title').value = '';
+    document.getElementById('article-category').value = '';
+    document.getElementById('article-excerpt').value = '';
+    document.getElementById('article-content').value = '';
+    document.getElementById('article-image').value = '';
+    document.getElementById('publish-btn').textContent = 'Publish Article';
+    document.getElementById('save-draft-btn').textContent = 'Save as Draft';
+    displayArticles();
+    document.querySelector('[data-tab="my-articles"]').click();
+    showNotification('Article saved as draft', 'success');
+  }
+
+  /***********************************************************************
+   * 6) Document Ready Initialization
+   ***********************************************************************/
+  document.addEventListener('DOMContentLoaded', () => {
+    displayArticles();
+    setupTabs();
+    setupCategoryFilter();
+    initRouter();
+
+    // Add this snippet:
+    document.querySelectorAll('[data-page]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const pageId = link.getAttribute('data-page');
+        navigateTo(pageId);
+      });
+    });
+    
+    // Search form
+    const searchForm = document.getElementById('search-form');
+    if (searchForm) {
+      searchForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const query = document.getElementById('search-input').value.trim();
+        if (!query) return;
+        const results = searchArticles(query);
+        displaySearchResults(results, query);
+        navigateTo('search-results-page');
+      });
+    }
+    // Newsletter form
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', e => {
+        e.preventDefault();
+        showNotification('Thank you for subscribing to our newsletter!', 'success');
+        newsletterForm.reset();
+      });
+    }
+    // Comment submission
+    const commentSubmit = document.getElementById('comment-submit');
+    if (commentSubmit) {
+      commentSubmit.addEventListener('click', () => {
+        const articleId = document.querySelector('.blog-post').getAttribute('data-article-id');
+        if (articleId) {
+          addComment(articleId);
+        }
+      });
+    }
+    // Save as draft
+    const saveDraftBtn = document.getElementById('save-draft-btn');
+    if (saveDraftBtn) {
+      saveDraftBtn.addEventListener('click', () => {
+        saveDraft();
+      });
+    }
+    // Publish
+    const publishBtn = document.getElementById('publish-btn');
+    if (publishBtn) {
+      publishBtn.addEventListener('click', () => {
+        console.log('Publish button clicked');
+        // If "Update Article", we basically do the same as publish?
+        // We'll just reuse publishArticle
+        const articleId = document.getElementById('article-id').value;
+        if (articleId) {
+          // Overwrite the old article but set status = 'published'
+          // This duplicates some logic, but let's keep it simple
+          const idx = memoryStorage.articles.findIndex(a => a.id === articleId);
+          if (idx !== -1) {
+            // Reuse the publishArticle flow to gather fields
+            // Then just replace that article and show success
+            const title = document.getElementById('article-title').value.trim();
+            const category = document.getElementById('article-category').value;
+            const excerpt = document.getElementById('article-excerpt').value.trim();
+            const content = document.getElementById('article-content').value.trim();
+            const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
+            if (!title || !category || !excerpt || !content) {
+              showNotification('Please fill out all required fields', 'error');
+              return;
+            }
+            memoryStorage.articles[idx].title = title;
+            memoryStorage.articles[idx].category = category;
+            memoryStorage.articles[idx].excerpt = excerpt;
+            memoryStorage.articles[idx].content = formatContentAsHtml(content);
+            memoryStorage.articles[idx].imageUrl = imageUrl;
+            memoryStorage.articles[idx].status = 'published';
+            memoryStorage.articles[idx].date = new Date().toISOString();
+            memoryStorage.articles[idx].readTime = calculateReadTime(content);
+            document.getElementById('article-id').value = '';
+            document.getElementById('article-title').value = '';
+            document.getElementById('article-category').value = '';
+            document.getElementById('article-excerpt').value = '';
+            document.getElementById('article-content').value = '';
+            document.getElementById('article-image').value = '';
+            document.getElementById('publish-btn').textContent = 'Publish Article';
+            document.getElementById('save-draft-btn').textContent = 'Save as Draft';
+            displayArticles();
+            showPublishSuccessDialog(memoryStorage.articles[idx]);
+          } else {
+            // fallback if somehow not found
+            publishArticle();
+          }
+        } else {
+          // normal publish
+          publishArticle();
+        }
+      });
+    }
+    // Animate on scroll
+    window.addEventListener('scroll', fadeInOnScroll);
+    fadeInOnScroll();
+  });
+  </script>
+</body>
+</html>
