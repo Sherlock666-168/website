@@ -2060,21 +2060,6 @@
     });
   }
 
-  // Show notification
-  function showNotification(message, type) {
-    const notification = document.getElementById('notification');
-    if (!notification) return;
-    
-    notification.textContent = message;
-    notification.className = 'notification';
-    notification.classList.add(`notification-${type}`);
-    notification.classList.add('show');
-    
-    setTimeout(() => {
-      notification.classList.remove('show');
-    }, 3000);
-  }
-
   // Basic document ready initialization for UI elements
   document.addEventListener('DOMContentLoaded', () => {
     // Set up navigation links
