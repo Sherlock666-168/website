@@ -267,9 +267,10 @@ async function displayArticles() {
             </div>
             <div class="article-actions">
               <button class="article-action-btn edit-btn" data-id="${article.id}">Edit</button>
-              ${article.status === 'published'
-                ? `<button class="article-action-btn view-btn" data-id="${article.id}">View</button>`
-                : `<button class="article-action-btn publish-btn" data-id="${article.id}">Publish</button>`
+              ${
+                article.status === 'published'
+                  ? `<button class="article-action-btn view-btn" data-id="${article.id}">View</button>`
+                  : `<button class="article-action-btn publish-btn" data-id="${article.id}">Publish</button>`
               }
               <button class="article-action-btn delete-btn" data-id="${article.id}">Delete</button>
             </div>
@@ -320,17 +321,15 @@ async function displayArticles() {
  * 5) Article Operations (Updated for Supabase)
  ***********************************************************************/
 
-// Load Single Article
 async function loadArticle(articleId) {
   try {
     const article = await fetchArticleById(articleId);
-    
     if (!article) {
       showNotification('Article not found', 'error');
       return;
     }
     
-    // Set data-article-id for the comments to know which article
+    // Set data-article-id for comments
     const blogPost = document.querySelector('.blog-post');
     if (blogPost) {
       blogPost.setAttribute('data-article-id', articleId);
@@ -340,7 +339,8 @@ async function loadArticle(articleId) {
     document.getElementById('post-category').textContent = article.category;
     document.getElementById('post-title').textContent = article.title;
     document.getElementById('post-date').textContent = formatDate(article.date);
-    document.getElementById('post-read-time').textContent = article.readTime || calculateReadTime(article.content);
+    document.getElementById('post-read-time').textContent =
+      article.readTime || calculateReadTime(article.content);
     document.getElementById('post-image').src = article.imageUrl;
     document.getElementById('post-content').innerHTML = article.content;
     
@@ -359,7 +359,6 @@ async function loadArticle(articleId) {
   }
 }
 
-// Load comments for an article
 function loadCommentsUI(comments) {
   const commentsList = document.getElementById('comments-list');
   if (!commentsList) return;
@@ -386,23 +385,15 @@ function loadCommentsUI(comments) {
   });
 }
 
-// Add a new comment
 async function addCommentHandler(articleId) {
   const commentText = document.getElementById('comment-text').value.trim();
-  
   if (!commentText) {
     showNotification('Please enter a comment', 'error');
     return;
   }
-  
   try {
-    const commentObj = {
-      content: commentText,
-      author: 'Guest User'
-    };
-    
+    const commentObj = { content: commentText, author: 'Guest User' };
     const success = await addComment(articleId, commentObj);
-    
     if (success) {
       const comments = await fetchComments(articleId);
       loadCommentsUI(comments);
@@ -420,9 +411,7 @@ async function addCommentHandler(articleId) {
 // Handle article publication
 function publishArticleHandler() {
   console.log("Publish button clicked");
-  
   try {
-    // Get form data
     const title = document.getElementById('article-title').value.trim();
     const category = document.getElementById('article-category').value;
     const excerpt = document.getElementById('article-excerpt').value.trim();
@@ -435,27 +424,25 @@ function publishArticleHandler() {
       return;
     }
     
-    // Calculate read time based on content length
+    // Calculate read time
     const wordCount = content.split(/\s+/).length;
     const readTime = Math.max(1, Math.ceil(wordCount / 200)) + ' min read';
     
-    // Create article object with exact column names matching the database
     const article = {
       id: articleId || Date.now().toString(),
-      title: title,
-      category: category,
-      excerpt: excerpt,
-      content: content,
-      imageUrl: imageUrl,
-      readTime: readTime, 
+      title,
+      category,
+      excerpt,
+      content,
+      imageUrl,
+      readTime,
       showTimeline: false,
       status: 'published'
     };
     
     console.log("Publishing article:", article);
-    
-    // Use direct Supabase call to avoid any possible issues with the wrapper
-    supabase.from('articles')
+    supabase
+      .from('articles')
       .insert([article])
       .select()
       .then(({ data, error }) => {
@@ -464,12 +451,11 @@ function publishArticleHandler() {
           showNotification('Error: ' + error.message, 'error');
           return;
         }
-        
         console.log("Article published successfully:", data);
         showNotification('Article published successfully!', 'success');
         document.getElementById('publication-form').reset();
         
-        // Show success dialog or redirect
+        // Show success dialog
         const successDialog = document.getElementById('success-dialog');
         if (successDialog) {
           successDialog.classList.add('show');
@@ -485,11 +471,9 @@ function publishArticleHandler() {
   }
 }
 
-// Publish a draft
 async function publishDraft(id) {
   try {
     const success = await updateArticle(id, { status: 'published' });
-    
     if (success) {
       await displayArticles();
       const article = await fetchArticleById(id);
@@ -503,11 +487,9 @@ async function publishDraft(id) {
   }
 }
 
-// Delete article
 async function deleteArticleHandler(id) {
   try {
     const success = await deleteArticle(id);
-    
     if (success) {
       await displayArticles();
       showNotification('Article deleted successfully', 'success');
@@ -520,11 +502,9 @@ async function deleteArticleHandler(id) {
   }
 }
 
-// Edit an article
 async function editArticle(id) {
   try {
     const article = await fetchArticleById(id);
-    
     if (!article) {
       showNotification('Article not found', 'error');
       return;
@@ -553,7 +533,6 @@ async function editArticle(id) {
   }
 }
 
-// Success dialog after publishing
 function showPublishSuccessDialog(article) {
   const successDialog = document.getElementById('success-dialog');
   const viewButton = document.getElementById('view-article-btn');
@@ -565,12 +544,10 @@ function showPublishSuccessDialog(article) {
     loadArticle(article.id);
     navigateTo('blog-post-page');
   };
-  
   homeButton.onclick = () => {
     successDialog.classList.remove('show');
     navigateTo('home-page');
   };
-  
   closeButton.onclick = () => {
     successDialog.classList.remove('show');
     document.querySelector('[data-tab="my-articles"]').click();
@@ -579,12 +556,9 @@ function showPublishSuccessDialog(article) {
   successDialog.classList.add('show');
 }
 
-// Handle saving draft
 function saveDraftHandler() {
   console.log("Save draft button clicked");
-  
   try {
-    // Get form data
     const title = document.getElementById('article-title').value.trim();
     const category = document.getElementById('article-category').value;
     const excerpt = document.getElementById('article-excerpt').value.trim();
@@ -597,27 +571,24 @@ function saveDraftHandler() {
       return;
     }
     
-    // Calculate read time based on content length
     const wordCount = content.split(/\s+/).length;
     const readTime = Math.max(1, Math.ceil(wordCount / 200)) + ' min read';
     
-    // Create article object with exact column names matching the database
     const article = {
       id: articleId || Date.now().toString(),
-      title: title,
+      title,
       category: category || 'Uncategorized',
       excerpt: excerpt || '',
       content: content || '',
-      imageUrl: imageUrl,
-      readTime: readTime,
+      imageUrl,
+      readTime,
       showTimeline: false,
       status: 'draft'
     };
     
     console.log("Saving draft:", article);
-    
-    // Use direct Supabase call
-    supabase.from('articles')
+    supabase
+      .from('articles')
       .insert([article])
       .select()
       .then(({ data, error }) => {
@@ -626,7 +597,6 @@ function saveDraftHandler() {
           showNotification('Error: ' + error.message, 'error');
           return;
         }
-        
         console.log("Draft saved successfully:", data);
         showNotification('Draft saved successfully!', 'success');
       })
@@ -640,11 +610,9 @@ function saveDraftHandler() {
   }
 }
 
-// Update article
 async function updateArticleHandler() {
   try {
     const articleId = document.getElementById('article-id').value;
-    
     if (!articleId) {
       // If no ID, it's a new article
       await publishArticleHandler();
@@ -663,7 +631,6 @@ async function updateArticleHandler() {
     }
     
     const readTime = calculateReadTime(content);
-    
     const updates = {
       title,
       category,
@@ -675,7 +642,6 @@ async function updateArticleHandler() {
     };
     
     const updated = await updateArticle(articleId, updates);
-    
     if (updated) {
       // Reset form
       document.getElementById('article-id').value = '';
@@ -701,8 +667,6 @@ async function updateArticleHandler() {
 /***********************************************************************
  * 6) Category Filtering & Search
  ***********************************************************************/
-
-// Category Filtering
 function setupCategoryFilter() {
   const filterBtns = document.querySelectorAll('.filter-btn');
   filterBtns.forEach(btn => {
@@ -723,8 +687,8 @@ function setupCategoryFilter() {
   
   // For category links
   document.querySelectorAll('[data-category]').forEach(link => {
-    if (link.tagName === 'A') { 
-      link.addEventListener('click', (e) => {
+    if (link.tagName === 'A') {
+      link.addEventListener('click', e => {
         e.preventDefault();
         const cat = link.getAttribute('data-category');
         filterCategory(cat);
@@ -745,7 +709,6 @@ function filterCategory(category) {
   }, 100);
 }
 
-// Search Results display
 async function displaySearchResults(results, query) {
   const searchResultsList = document.getElementById('search-results-list');
   const searchQuery = document.getElementById('search-query');
@@ -756,7 +719,6 @@ async function displaySearchResults(results, query) {
   
   if (searchResultsList) {
     searchResultsList.innerHTML = '';
-    
     if (results.length === 0) {
       searchResultsList.innerHTML = '<p>No results found for your search. Please try different keywords.</p>';
       return;
@@ -786,8 +748,6 @@ async function displaySearchResults(results, query) {
 /***********************************************************************
  * 7) UI Components
  ***********************************************************************/
-
-// Tab Functionality
 function setupTabs() {
   const tabs = document.querySelectorAll('.tab');
   if (tabs.length > 0) {
@@ -803,9 +763,10 @@ function setupTabs() {
   }
 }
 
-// Fade In on Scroll
 function fadeInOnScroll() {
-  const elements = document.querySelectorAll('.post-card:not(.fade-in), .category-card:not(.fade-in), .about-content:not(.fade-in)');
+  const elements = document.querySelectorAll(
+    '.post-card:not(.fade-in), .category-card:not(.fade-in), .about-content:not(.fade-in)'
+  );
   elements.forEach(el => {
     const top = el.getBoundingClientRect().top;
     const screenPosition = window.innerHeight;
@@ -818,21 +779,81 @@ function fadeInOnScroll() {
 /***********************************************************************
  * 8) Event Listeners & Initialization
  ***********************************************************************/
-// Make sure to attach these handlers to the buttons
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  // 1. Initialize theme & UI
+  initializeThemeAndUI();
+  setupTabs();
+  setupCategoryFilter();
+
+  // 2. Attach button handlers
   const publishBtn = document.getElementById('publish-btn');
-  const saveDraftBtn = document.getElementById('save-draft-btn');
-  
   if (publishBtn) {
-    publishBtn.addEventListener('click', publishArticleHandler);
+    publishBtn.addEventListener('click', () => {
+      const articleId = document.getElementById('article-id').value;
+      if (articleId) {
+        updateArticleHandler();
+      } else {
+        publishArticleHandler();
+      }
+    });
   }
-  
+  const saveDraftBtn = document.getElementById('save-draft-btn');
   if (saveDraftBtn) {
     saveDraftBtn.addEventListener('click', saveDraftHandler);
   }
+
+  // 3. Default to home page
+  navigateTo('home-page');
+  
+  // 4. Load data from Supabase (articles, etc.)
+  await displayArticles();
+  
+  // 5. Extra UI forms (search, newsletter, comments, etc.)
+  const searchForm = document.getElementById('search-form');
+  if (searchForm) {
+    searchForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const query = document.getElementById('search-input').value.trim();
+      if (!query) return;
+      
+      try {
+        const results = await searchArticles(query);
+        displaySearchResults(results, query);
+        if (document.getElementById('search-results-page')) {
+          navigateTo('search-results-page');
+        }
+      } catch (error) {
+        console.error('Error searching:', error);
+        showNotification('Search failed', 'error');
+      }
+    });
+  }
+  
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', e => {
+      e.preventDefault();
+      showNotification('Thank you for subscribing to our newsletter!', 'success');
+      newsletterForm.reset();
+    });
+  }
+  
+  const commentSubmit = document.getElementById('comment-submit');
+  if (commentSubmit) {
+    commentSubmit.addEventListener('click', () => {
+      const articleId = document.querySelector('.blog-post').getAttribute('data-article-id');
+      if (articleId) {
+        addCommentHandler(articleId);
+      }
+    });
+  }
+
+  // 6. Animate on scroll
+  window.addEventListener('scroll', fadeInOnScroll);
+  fadeInOnScroll();
 });
 
-// Helper function to show notifications
+// Single showNotification function
 function showNotification(message, type) {
   const notification = document.getElementById('notification');
   if (!notification) return;
@@ -846,79 +867,3 @@ function showNotification(message, type) {
     notification.classList.remove('show');
   }, 3000);
 }
-  
-  // Default to home page
-  navigateTo('home-page');
-  
-  // Load data from Supabase
-  await displayArticles();
-  
-  // Search form
-  const searchForm = document.getElementById('search-form');
-  if (searchForm) {
-    searchForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const query = document.getElementById('search-input').value.trim();
-      if (!query) return;
-      
-      try {
-        const results = await searchArticles(query);
-        displaySearchResults(results, query);
-        // Navigate to a search results page if you have one
-        // or create a modal to display results
-        if (document.getElementById('search-results-page')) {
-          navigateTo('search-results-page');
-        }
-      } catch (error) {
-        console.error('Error searching:', error);
-        showNotification('Search failed', 'error');
-      }
-    });
-  }
-  
-  // Newsletter form
-  const newsletterForm = document.getElementById('newsletter-form');
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', e => {
-      e.preventDefault();
-      showNotification('Thank you for subscribing to our newsletter!', 'success');
-      newsletterForm.reset();
-    });
-  }
-  
-  // Comment submission
-  const commentSubmit = document.getElementById('comment-submit');
-  if (commentSubmit) {
-    commentSubmit.addEventListener('click', () => {
-      const articleId = document.querySelector('.blog-post').getAttribute('data-article-id');
-      if (articleId) {
-        addCommentHandler(articleId);
-      }
-    });
-  }
-  
-  // Save as draft
-  const saveDraftBtn = document.getElementById('save-draft-btn');
-  if (saveDraftBtn) {
-    saveDraftBtn.addEventListener('click', () => {
-      saveDraftHandler();
-    });
-  }
-  
-  // Publish
-  const publishBtn = document.getElementById('publish-btn');
-  if (publishBtn) {
-    publishBtn.addEventListener('click', () => {
-      const articleId = document.getElementById('article-id').value;
-      if (articleId) {
-        updateArticleHandler();
-      } else {
-        publishArticleHandler();
-      }
-    });
-  }
-  
-  // Animate on scroll
-  window.addEventListener('scroll', fadeInOnScroll);
-  fadeInOnScroll();
-});
