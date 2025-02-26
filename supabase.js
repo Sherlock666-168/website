@@ -1,4 +1,6 @@
 // supabase.js - Integration with Supabase for article management
+// Debug mode
+const SUPABASE_DEBUG = true;
 
 // Supabase client initialization - CORRECT VERSION FOR CDN
 const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';  // Replace with your URL
