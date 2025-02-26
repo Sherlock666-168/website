@@ -2106,7 +2106,29 @@
 </script>
 
   <!-- Supabase JS library from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase CDN - CORRECTED URL -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
+
+<!-- Initialization script - runs immediately -->
+<script>
+  // Immediately create the Supabase client when the script loads
+  console.log("Creating global Supabase client...");
+  
+  // Your actual Supabase credentials
+  const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';
+  
+  // Create global variables that other scripts can access
+  try {
+    window.supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+    console.log("Global supabase client created successfully");
+  } catch (e) {
+    console.error("Error creating Supabase client:", e);
+    alert("Failed to initialize Supabase. See console for details.");
+  }
+</script>
+
+<!-- Then include your module scripts -->
 <script src="supabase.js" type="module"></script>
 <script src="app.js" type="module"></script>
 
