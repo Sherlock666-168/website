@@ -1952,83 +1952,17 @@
   </div>
 
   <!-- Scripts and supporting JS code remain the same -->
-  <script>
+
+  <!-- Supabase JS library from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Basic Site Functionality (non-article related) -->
+<script>
   /***********************************************************************
-   * 1) Global memory storage for articles (including sample articles)
+   * 1) Global theme state
    ***********************************************************************/
-  const memoryStorage = {
-    articles: [
-      {
-        id: '1',
-        title: 'The Evolution of AI Agents: From Rules to Autonomy',
-        category: 'AI Trends',
-        excerpt: 'Exploring the journey of AI agents from simple rule-based systems to autonomous decision-makers powered by modern LLMs.',
-        content: `
-          <p>The concept of AI agents has undergone a remarkable evolution over the past few decades. From simple rule-based systems to today's sophisticated autonomous decision-makers powered by large language models, the journey reflects broader advancements in artificial intelligence and machine learning. This post explores this fascinating evolution and what it means for the future of AI products.</p>
-          <h2>The Beginning: Rule-Based Agents</h2>
-          <p>The earliest AI agents were relatively simple rule-based systems that operated within clearly defined parameters. These systems followed explicit if-then logic programmed by humans to handle specific scenarios.</p>
-          <p>The strengths of rule-based agents were their predictability and transparency. When properly programmed, they executed their limited functions reliably and their decision-making process could be easily traced and understood. However, they struggled with ambiguity, couldn't handle edge cases well, and required extensive programming for even moderately complex tasks.</p>
-          <blockquote>
-            "The challenge with rule-based agents was never getting them to follow rules—it was determining all the rules they would ever need to follow in a complex environment." — Marvin Minsky
-          </blockquote>
-          <p>Classic examples of rule-based agents include early customer service chatbots and expert systems like MYCIN (1970s) that assisted doctors with diagnosing bacterial infections. These systems were useful but clearly artificial in their interactions and limited in their capabilities.</p>
-        `,
-        imageUrl: '/api/placeholder/800/400',
-        status: 'published',
-        date: '2023-06-15T10:30:00Z',
-        showTimeline: true,
-        readTime: '8 min read',
-        comments: []
-      },
-      {
-        id: '2',
-        title: 'Product Management Considerations for Agent-Based AI Systems',
-        category: 'Product Management',
-        excerpt: 'Key product management strategies for successfully developing, deploying, and scaling AI agent systems.',
-        content: `
-          <p>As AI agents become increasingly sophisticated and autonomous, product managers face unique challenges and opportunities in bringing these systems to market. This article explores essential strategies and considerations for effectively managing agent-based AI products throughout their lifecycle.</p>
-          <h2>Understanding the Agent Paradigm</h2>
-          <p>AI agents represent a fundamental shift from traditional software products. Unlike conventional applications that execute predictable functions in response to specific inputs, agents can:</p>
-          <ul>
-            <li>Act autonomously based on goals rather than explicit instructions</li>
-            <li>Learn from interactions and improve over time</li>
-            <li>Make decisions with varying degrees of human oversight</li>
-            <li>Integrate with multiple systems and tools to accomplish tasks</li>
-          </ul>
-          <p>This paradigm shift requires product managers to adapt their approach to discovery, planning, execution, and measurement.</p>
-        `,
-        imageUrl: '/api/placeholder/800/400',
-        status: 'published',
-        date: '2023-05-28T09:15:00Z',
-        showTimeline: false,
-        readTime: '10 min read',
-        comments: []
-      },
-      {
-        id: '3',
-        title: 'Technical Deep Dive: How RAG Enhances AI Agent Capabilities',
-        category: 'Technical Deep Dive',
-        excerpt: 'An in-depth exploration of Retrieval-Augmented Generation and how it expands the knowledge and capabilities of AI agents.',
-        content: `
-          <p>Retrieval-Augmented Generation (RAG) has emerged as one of the most important architectural patterns for enhancing the capabilities of AI agents. This technical deep dive explores how RAG works, various implementation approaches, and best practices for integrating RAG into agent systems.</p>
-          <h2>Understanding the RAG Architecture</h2>
-          <p>Retrieval-Augmented Generation combines information retrieval with generative AI to create systems that can access, synthesize, and apply external knowledge. At its core, RAG addresses one of the fundamental limitations of large language models: their reliance on knowledge embedded in parameters during training.</p>
-          <p>A basic RAG pipeline consists of three main components:</p>
-          <ol>
-            <li><strong>Knowledge Base</strong>: A repository of documents, data, or information sources</li>
-            <li><strong>Retrieval System</strong>: Mechanisms to identify and retrieve relevant information from the knowledge base</li>
-            <li><strong>Generation Model</strong>: A large language model that synthesizes retrieved information with its parametric knowledge</li>
-          </ol>
-        `,
-        imageUrl: '/api/placeholder/800/400',
-        status: 'published',
-        date: '2023-04-10T14:20:00Z',
-        showTimeline: false,
-        readTime: '12 min read',
-        comments: []
-      }
-    ],
-    theme: 'light'
+  const siteSettings = {
+    theme: localStorage.getItem('theme') || 'light'
   };
 
   /***********************************************************************
@@ -2041,7 +1975,7 @@
   const mobileMenuClose = document.getElementById('mobile-menu-close');
 
   // Apply stored theme on load
-  if (memoryStorage.theme === 'dark') {
+  if (siteSettings.theme === 'dark') {
     body.setAttribute('data-theme', 'dark');
     themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
   }
@@ -2051,21 +1985,29 @@
     if (body.getAttribute('data-theme') === 'dark') {
       body.removeAttribute('data-theme');
       themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-      memoryStorage.theme = 'light';
+      siteSettings.theme = 'light';
+      localStorage.setItem('theme', 'light');
     } else {
       body.setAttribute('data-theme', 'dark');
       themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-      memoryStorage.theme = 'dark';
+      siteSettings.theme = 'dark';
+      localStorage.setItem('theme', 'dark');
     }
   });
 
   // Mobile menu controls
-  mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.add('active');
-  });
-  mobileMenuClose.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-  });
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+    });
+  }
+  
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+  }
+  
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.remove('active');
@@ -2106,515 +2048,8 @@
   }
 
   /***********************************************************************
-   * 3) Utility Functions
+   * 3) Basic Navigation & UI Setup - Non-article related
    ***********************************************************************/
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  }
-
-  function calculateReadTime(content) {
-    // average ~200 words/min
-    const wordCount = (content.match(/\b\w+\b/g) || []).length;
-    const minutes = Math.ceil(wordCount / 200);
-    return `${minutes} min read`;
-  }
-
-  function loadArticlesFromStorage() {
-    // for now, just returns memoryStorage.articles directly
-    return memoryStorage.articles;
-  }
-
-  /***********************************************************************
-   * 4) Display Featured & All Articles
-   ***********************************************************************/
-  function displayArticles() {
-    const articles = loadArticlesFromStorage();
-    const publishedArticles = articles.filter(a => a.status === 'published');
-
-    // Featured
-    const featuredPostsGrid = document.getElementById('featured-posts-grid');
-    if (featuredPostsGrid) {
-      featuredPostsGrid.innerHTML = '';
-      if (publishedArticles.length === 0) {
-        featuredPostsGrid.innerHTML = '<p class="no-articles-message">No published articles yet. Create your first article in Publish!</p>';
-      } else {
-        const sortedArticles = [...publishedArticles].sort((a, b) => new Date(b.date) - new Date(a.date));
-        const featured = sortedArticles.slice(0, 3);
-        featured.forEach(article => {
-          const card = document.createElement('article');
-          card.className = 'post-card';
-          card.innerHTML = `
-            <div class="card-image" style="background-image: url('${article.imageUrl}');"></div>
-            <div class="card-content">
-              <span class="post-category">${article.category}</span>
-              <h3 class="post-title">${article.title}</h3>
-              <p class="post-excerpt">${article.excerpt}</p>
-              <div class="post-meta">
-                <span>${formatDate(article.date)}</span>
-                <span>${article.readTime || calculateReadTime(article.content)}</span>
-              </div>
-            </div>
-          `;
-          card.addEventListener('click', () => {
-            loadArticle(article.id);
-            navigateTo('blog-post-page');
-          });
-          featuredPostsGrid.appendChild(card);
-        });
-        setTimeout(() => {
-          document.querySelectorAll('.post-card').forEach(c => c.classList.add('fade-in'));
-        }, 100);
-      }
-    }
-
-    // All Blog List
-    const allPostsGrid = document.getElementById('all-posts-grid');
-    if (allPostsGrid) {
-      allPostsGrid.innerHTML = '';
-      if (publishedArticles.length === 0) {
-        allPostsGrid.innerHTML = '<p class="no-articles-message">No published articles yet. Create your first article in Publish!</p>';
-      } else {
-        const sortedAll = [...publishedArticles].sort((a, b) => new Date(b.date) - new Date(a.date));
-        sortedAll.forEach(article => {
-          const card = document.createElement('article');
-          card.className = 'post-card';
-          card.setAttribute('data-category', article.category);
-          card.innerHTML = `
-            <div class="card-image" style="background-image: url('${article.imageUrl}');"></div>
-            <div class="card-content">
-              <span class="post-category">${article.category}</span>
-              <h3 class="post-title">${article.title}</h3>
-              <p class="post-excerpt">${article.excerpt}</p>
-              <div class="post-meta">
-                <span>${formatDate(article.date)}</span>
-                <span>${article.readTime || calculateReadTime(article.content)}</span>
-              </div>
-            </div>
-          `;
-          card.addEventListener('click', () => {
-            loadArticle(article.id);
-            navigateTo('blog-post-page');
-          });
-          allPostsGrid.appendChild(card);
-        });
-      }
-    }
-
-    // My Articles Tab
-    const articlesList = document.getElementById('articles-list');
-    if (articlesList) {
-      articlesList.innerHTML = '';
-      if (articles.length === 0) {
-        articlesList.innerHTML = '<p class="no-articles-message">No articles yet. Create your first article!</p>';
-        return;
-      }
-      // Sort: published first, then by date
-      articles.sort((a, b) => {
-        if (a.status !== b.status) {
-          return a.status === 'published' ? -1 : 1;
-        }
-        return new Date(b.date) - new Date(a.date);
-      });
-      articles.forEach(article => {
-        const aDate = formatDate(article.date);
-        const card = document.createElement('div');
-        card.className = 'article-card';
-        card.innerHTML = `
-          <div class="article-image" style="background-image: url('${article.imageUrl}');"></div>
-          <div class="article-details">
-            <span class="article-status status-${article.status}">${article.status === 'published' ? 'Published' : 'Draft'}</span>
-            <h3 class="article-title">${article.title}</h3>
-            <p class="article-excerpt">${article.excerpt}</p>
-            <div class="article-meta">
-              ${
-                article.status === 'published'
-                ? `Published on: ${aDate}`
-                : `Last edited: ${aDate}`
-              }
-            </div>
-            <div class="article-actions">
-              <button class="article-action-btn edit-btn" data-id="${article.id}">Edit</button>
-              ${
-                article.status === 'published'
-                ? `<button class="article-action-btn view-btn" data-id="${article.id}">View</button>`
-                : `<button class="article-action-btn publish-btn" data-id="${article.id}">Publish</button>`
-              }
-              <button class="article-action-btn delete-btn" data-id="${article.id}">Delete</button>
-            </div>
-          </div>
-        `;
-        articlesList.appendChild(card);
-      });
-
-      // Attach listeners
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.stopPropagation();
-          editArticle(btn.getAttribute('data-id'));
-        });
-      });
-      document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.stopPropagation();
-          loadArticle(btn.getAttribute('data-id'));
-          navigateTo('blog-post-page');
-        });
-      });
-      document.querySelectorAll('.publish-btn').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.stopPropagation();
-          publishDraft(btn.getAttribute('data-id'));
-        });
-      });
-      document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.stopPropagation();
-          if (confirm('Are you sure you want to delete this article?')) {
-            deleteArticle(btn.getAttribute('data-id'));
-          }
-        });
-      });
-    }
-  }
-
-  /***********************************************************************
-   * 5) Updated Code from ai-insights-blog-fixed-js(1).js
-   ***********************************************************************/
-
-  // Load Single Article
-  function loadArticle(articleId) {
-    const articles = loadArticlesFromStorage();
-    const article = articles.find(a => a.id === articleId);
-    if (!article) {
-      showNotification('Article not found', 'error');
-      return;
-    }
-    // Set data-article-id for the comments to know which article
-    const blogPost = document.querySelector('.blog-post');
-    if (blogPost) {
-      blogPost.setAttribute('data-article-id', articleId);
-    }
-    // Populate
-    document.getElementById('post-category').textContent = article.category;
-    document.getElementById('post-title').textContent = article.title;
-    document.getElementById('post-date').textContent = formatDate(article.date);
-    document.getElementById('post-read-time').textContent = article.readTime || calculateReadTime(article.content);
-    document.getElementById('post-image').src = article.imageUrl;
-    document.getElementById('post-content').innerHTML = article.content;
-    // Timeline show/hide
-    const timeline = document.getElementById('ai-agents-timeline');
-    if (timeline) {
-      timeline.style.display = article.showTimeline ? 'block' : 'none';
-    }
-    // Load comments
-    loadComments(article);
-  }
-
-  // Load comments for an article
-  function loadComments(article) {
-    const commentsList = document.getElementById('comments-list');
-    if (!commentsList) return;
-    commentsList.innerHTML = '';
-    if (!article.comments || article.comments.length === 0) {
-      commentsList.innerHTML = '<p>No comments yet. Be the first to comment!</p>';
-      return;
-    }
-    article.comments.forEach(comment => {
-      const cEl = document.createElement('div');
-      cEl.className = 'comment';
-      cEl.innerHTML = `
-        <div class="comment-header">
-          <span class="comment-author">${comment.author}</span>
-          <span class="comment-date">${formatDate(comment.date)}</span>
-        </div>
-        <div class="comment-content">
-          ${comment.content}
-        </div>
-      `;
-      commentsList.appendChild(cEl);
-    });
-  }
-
-  // Add a new comment
-  function addComment(articleId) {
-    const commentText = document.getElementById('comment-text').value.trim();
-    if (!commentText) {
-      showNotification('Please enter a comment', 'error');
-      return;
-    }
-    const articles = loadArticlesFromStorage();
-    const idx = articles.findIndex(a => a.id === articleId);
-    if (idx === -1) {
-      showNotification('Article not found', 'error');
-      return;
-    }
-    const newComment = {
-      id: Date.now().toString(),
-      author: 'Guest User',
-      date: new Date().toISOString(),
-      content: commentText
-    };
-    if (!memoryStorage.articles[idx].comments) {
-      memoryStorage.articles[idx].comments = [];
-    }
-    memoryStorage.articles[idx].comments.push(newComment);
-    loadComments(memoryStorage.articles[idx]);
-    document.getElementById('comment-text').value = '';
-    showNotification('Comment added successfully', 'success');
-  }
-
-  // Direct publish function
-  function publishArticle() {
-    console.log('Publishing article');
-    const title = document.getElementById('article-title').value.trim();
-    const category = document.getElementById('article-category').value;
-    const excerpt = document.getElementById('article-excerpt').value.trim();
-    const content = document.getElementById('article-content').value.trim();
-    const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
-    if (!title || !category || !excerpt || !content) {
-      showNotification('Please fill out all required fields', 'error');
-      return;
-    }
-    const newArticle = {
-      id: Date.now().toString(),
-      title,
-      category,
-      excerpt,
-      content: formatContentAsHtml(content),
-      imageUrl,
-      status: 'published',
-      date: new Date().toISOString(),
-      readTime: calculateReadTime(content),
-      comments: []
-    };
-    console.log('Creating new article:', newArticle);
-    memoryStorage.articles.push(newArticle);
-    displayArticles();
-    // Reset form
-    document.getElementById('article-title').value = '';
-    document.getElementById('article-category').value = '';
-    document.getElementById('article-excerpt').value = '';
-    document.getElementById('article-content').value = '';
-    document.getElementById('article-image').value = '';
-    // Show success
-    showPublishSuccessDialog(newArticle);
-  }
-
-  // Publish a draft
-  function publishDraft(id) {
-    const idx = memoryStorage.articles.findIndex(a => a.id === id);
-    if (idx === -1) return;
-    memoryStorage.articles[idx].status = 'published';
-    memoryStorage.articles[idx].date = new Date().toISOString();
-    showPublishSuccessDialog(memoryStorage.articles[idx]);
-    displayArticles();
-  }
-
-  // Delete article
-  function deleteArticle(id) {
-    memoryStorage.articles = memoryStorage.articles.filter(a => a.id !== id);
-    displayArticles();
-    showNotification('Article deleted successfully', 'success');
-  }
-
-  // Edit an article
-  function editArticle(id) {
-    const article = memoryStorage.articles.find(a => a.id === id);
-    if (!article) return;
-    // Switch to New Article tab
-    document.querySelector('[data-tab="new-article"]').click();
-    // Fill form
-    document.getElementById('article-id').value = article.id;
-    document.getElementById('article-title').value = article.title;
-    document.getElementById('article-category').value = article.category;
-    document.getElementById('article-excerpt').value = article.excerpt;
-    document.getElementById('article-content').value = article.content.replace(/<[^>]*>/g, '');
-    document.getElementById('article-image').value = article.imageUrl;
-    // Update button text
-    document.getElementById('publish-btn').textContent = 'Update Article';
-    document.getElementById('save-draft-btn').textContent = 'Save Changes as Draft';
-  }
-
-  // Show notification
-  function showNotification(message, type) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = 'notification';
-    notification.classList.add(`notification-${type}`);
-    notification.classList.add('show');
-    setTimeout(() => {
-      notification.classList.remove('show');
-    }, 3000);
-  }
-
-  // Success dialog after publishing
-  function showPublishSuccessDialog(article) {
-    console.log('Showing success dialog for article:', article.title);
-    const successDialog = document.getElementById('success-dialog');
-    const viewButton = document.getElementById('view-article-btn');
-    const homeButton = document.getElementById('go-home-btn');
-    const closeButton = document.getElementById('close-dialog-btn');
-    viewButton.onclick = () => {
-      successDialog.classList.remove('show');
-      loadArticle(article.id);
-      navigateTo('blog-post-page');
-    };
-    homeButton.onclick = () => {
-      successDialog.classList.remove('show');
-      navigateTo('home-page');
-    };
-    closeButton.onclick = () => {
-      successDialog.classList.remove('show');
-      document.querySelector('[data-tab="my-articles"]').click();
-    };
-    successDialog.classList.add('show');
-  }
-
-  // Format text content to HTML
-  function formatContentAsHtml(content) {
-    let html = '';
-    const paragraphs = content.split(/\n\n+/);
-    paragraphs.forEach(par => {
-      par = par.trim();
-      if (!par) return;
-      if (par.startsWith('# ')) {
-        html += `<h2>${par.substring(2)}</h2>`;
-      } else if (par.startsWith('## ')) {
-        html += `<h3>${par.substring(3)}</h3>`;
-      } else if (par.startsWith('* ') || par.startsWith('- ')) {
-        html += '<ul>';
-        const items = par.split(/\n/);
-        items.forEach(item => {
-          const trimmed = item.trim();
-          if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
-            html += `<li>${trimmed.substring(2)}</li>`;
-          }
-        });
-        html += '</ul>';
-      } else if (/^\d+\.\s/.test(par)) {
-        html += '<ol>';
-        const items = par.split(/\n/);
-        items.forEach(item => {
-          const trimmed = item.trim();
-          if (/^\d+\.\s/.test(trimmed)) {
-            html += `<li>${trimmed.substring(trimmed.indexOf(' ') + 1)}</li>`;
-          }
-        });
-        html += '</ol>';
-      } else if (par.startsWith('>')) {
-        html += `<blockquote>${par.substring(1).trim()}</blockquote>`;
-      } else {
-        html += `<p>${par}</p>`;
-      }
-    });
-    return html;
-  }
-
-  // Simple Search
-  function searchArticles(query) {
-    const articles = loadArticlesFromStorage().filter(a => a.status === 'published');
-    query = query.toLowerCase();
-    return articles.filter(a =>
-      a.title.toLowerCase().includes(query) ||
-      a.content.toLowerCase().includes(query) ||
-      a.excerpt.toLowerCase().includes(query) ||
-      a.category.toLowerCase().includes(query)
-    );
-  }
-
-  function displaySearchResults(results, query) {
-    const searchResultsList = document.getElementById('search-results-list');
-    const searchQuery = document.getElementById('search-query');
-    if (searchQuery) {
-      searchQuery.textContent = query;
-    }
-    if (searchResultsList) {
-      searchResultsList.innerHTML = '';
-      if (results.length === 0) {
-        searchResultsList.innerHTML = '<p>No results found for your search. Please try different keywords.</p>';
-        return;
-      }
-      results.forEach(article => {
-        const div = document.createElement('div');
-        div.className = 'search-result-item';
-        div.innerHTML = `
-          <span class="search-result-category">${article.category}</span>
-          <h3 class="search-result-title">${article.title}</h3>
-          <p class="search-result-excerpt">${article.excerpt}</p>
-          <div class="search-result-meta">
-            <span>${formatDate(article.date)}</span>
-            <span>${article.readTime || calculateReadTime(article.content)}</span>
-          </div>
-        `;
-        div.addEventListener('click', () => {
-          loadArticle(article.id);
-          navigateTo('blog-post-page');
-        });
-        searchResultsList.appendChild(div);
-      });
-    }
-  }
-
-  // Category Filtering
-  function setupCategoryFilter() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const category = btn.getAttribute('data-category');
-        const cards = document.querySelectorAll('#all-posts-grid .post-card');
-        cards.forEach(card => {
-          if (category === 'all' || card.getAttribute('data-category') === category) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
-    });
-    // For category links
-    document.querySelectorAll('.category-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const cat = link.getAttribute('data-category');
-        filterCategory(cat);
-      });
-    });
-  }
-
-  function filterCategory(category) {
-    navigateTo('blog-list-page');
-    setTimeout(() => {
-      const filterBtns = document.querySelectorAll('.filter-btn');
-      filterBtns.forEach(b => {
-        if (b.getAttribute('data-category') === category) {
-          b.click();
-        }
-      });
-    }, 100);
-  }
-
-  // Tab Functionality
-  function setupTabs() {
-    const tabs = document.querySelectorAll('.tab');
-    if (tabs.length > 0) {
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-          const tabId = tab.getAttribute('data-tab');
-          document.getElementById(`${tabId}-content`).classList.add('active');
-        });
-      });
-    }
-  }
 
   // Fade In on Scroll
   function fadeInOnScroll() {
@@ -2628,72 +2063,24 @@
     });
   }
 
-  // Save Draft
-  function saveDraft() {
-    const title = document.getElementById('article-title').value.trim();
-    const category = document.getElementById('article-category').value;
-    const excerpt = document.getElementById('article-excerpt').value.trim();
-    const content = document.getElementById('article-content').value.trim();
-    const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
-    const articleId = document.getElementById('article-id').value;
-    if (!title) {
-      showNotification('Please enter a title for your article', 'error');
-      return;
-    }
-    if (articleId) {
-      // Update existing
-      const idx = memoryStorage.articles.findIndex(a => a.id === articleId);
-      if (idx !== -1) {
-        memoryStorage.articles[idx] = {
-          ...memoryStorage.articles[idx],
-          title,
-          category,
-          excerpt,
-          content: formatContentAsHtml(content),
-          imageUrl,
-          status: 'draft',
-          date: new Date().toISOString()
-        };
-      }
-    } else {
-      // New draft
-      const newDraft = {
-        id: Date.now().toString(),
-        title,
-        category,
-        excerpt,
-        content: formatContentAsHtml(content),
-        imageUrl,
-        status: 'draft',
-        date: new Date().toISOString(),
-        comments: []
-      };
-      memoryStorage.articles.push(newDraft);
-    }
-    // Reset
-    document.getElementById('article-id').value = '';
-    document.getElementById('article-title').value = '';
-    document.getElementById('article-category').value = '';
-    document.getElementById('article-excerpt').value = '';
-    document.getElementById('article-content').value = '';
-    document.getElementById('article-image').value = '';
-    document.getElementById('publish-btn').textContent = 'Publish Article';
-    document.getElementById('save-draft-btn').textContent = 'Save as Draft';
-    displayArticles();
-    document.querySelector('[data-tab="my-articles"]').click();
-    showNotification('Article saved as draft', 'success');
+  // Show notification
+  function showNotification(message, type) {
+    const notification = document.getElementById('notification');
+    if (!notification) return;
+    
+    notification.textContent = message;
+    notification.className = 'notification';
+    notification.classList.add(`notification-${type}`);
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
   }
 
-  /***********************************************************************
-   * 6) Document Ready Initialization
-   ***********************************************************************/
+  // Basic document ready initialization for UI elements
   document.addEventListener('DOMContentLoaded', () => {
-    displayArticles();
-    setupTabs();
-    setupCategoryFilter();
-    initRouter();
-
-    // Add this snippet:
+    // Set up navigation links
     document.querySelectorAll('[data-page]').forEach(link => {
       link.addEventListener('click', event => {
         event.preventDefault();
@@ -2702,18 +2089,9 @@
       });
     });
     
-    // Search form
-    const searchForm = document.getElementById('search-form');
-    if (searchForm) {
-      searchForm.addEventListener('submit', e => {
-        e.preventDefault();
-        const query = document.getElementById('search-input').value.trim();
-        if (!query) return;
-        const results = searchArticles(query);
-        displaySearchResults(results, query);
-        navigateTo('search-results-page');
-      });
-    }
+    // Initialize router
+    initRouter();
+    
     // Newsletter form
     const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) {
@@ -2723,79 +2101,12 @@
         newsletterForm.reset();
       });
     }
-    // Comment submission
-    const commentSubmit = document.getElementById('comment-submit');
-    if (commentSubmit) {
-      commentSubmit.addEventListener('click', () => {
-        const articleId = document.querySelector('.blog-post').getAttribute('data-article-id');
-        if (articleId) {
-          addComment(articleId);
-        }
-      });
-    }
-    // Save as draft
-    const saveDraftBtn = document.getElementById('save-draft-btn');
-    if (saveDraftBtn) {
-      saveDraftBtn.addEventListener('click', () => {
-        saveDraft();
-      });
-    }
-    // Publish
-    const publishBtn = document.getElementById('publish-btn');
-    if (publishBtn) {
-      publishBtn.addEventListener('click', () => {
-        console.log('Publish button clicked');
-        // If "Update Article", we basically do the same as publish?
-        // We'll just reuse publishArticle
-        const articleId = document.getElementById('article-id').value;
-        if (articleId) {
-          // Overwrite the old article but set status = 'published'
-          // This duplicates some logic, but let's keep it simple
-          const idx = memoryStorage.articles.findIndex(a => a.id === articleId);
-          if (idx !== -1) {
-            // Reuse the publishArticle flow to gather fields
-            // Then just replace that article and show success
-            const title = document.getElementById('article-title').value.trim();
-            const category = document.getElementById('article-category').value;
-            const excerpt = document.getElementById('article-excerpt').value.trim();
-            const content = document.getElementById('article-content').value.trim();
-            const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
-            if (!title || !category || !excerpt || !content) {
-              showNotification('Please fill out all required fields', 'error');
-              return;
-            }
-            memoryStorage.articles[idx].title = title;
-            memoryStorage.articles[idx].category = category;
-            memoryStorage.articles[idx].excerpt = excerpt;
-            memoryStorage.articles[idx].content = formatContentAsHtml(content);
-            memoryStorage.articles[idx].imageUrl = imageUrl;
-            memoryStorage.articles[idx].status = 'published';
-            memoryStorage.articles[idx].date = new Date().toISOString();
-            memoryStorage.articles[idx].readTime = calculateReadTime(content);
-            document.getElementById('article-id').value = '';
-            document.getElementById('article-title').value = '';
-            document.getElementById('article-category').value = '';
-            document.getElementById('article-excerpt').value = '';
-            document.getElementById('article-content').value = '';
-            document.getElementById('article-image').value = '';
-            document.getElementById('publish-btn').textContent = 'Publish Article';
-            document.getElementById('save-draft-btn').textContent = 'Save as Draft';
-            displayArticles();
-            showPublishSuccessDialog(memoryStorage.articles[idx]);
-          } else {
-            // fallback if somehow not found
-            publishArticle();
-          }
-        } else {
-          // normal publish
-          publishArticle();
-        }
-      });
-    }
+    
     // Animate on scroll
     window.addEventListener('scroll', fadeInOnScroll);
     fadeInOnScroll();
   });
-  </script>
+</script>
+
 </body>
 </html>
