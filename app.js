@@ -417,51 +417,71 @@ async function addCommentHandler(articleId) {
   }
 }
 
-// Publish an article
-async function publishArticleHandler() {
+// Handle article publication
+function publishArticleHandler() {
+  console.log("Publish button clicked");
+  
   try {
+    // Get form data
     const title = document.getElementById('article-title').value.trim();
     const category = document.getElementById('article-category').value;
     const excerpt = document.getElementById('article-excerpt').value.trim();
     const content = document.getElementById('article-content').value.trim();
     const imageUrl = document.getElementById('article-image').value || '/api/placeholder/800/400';
+    const articleId = document.getElementById('article-id').value;
     
     if (!title || !category || !excerpt || !content) {
       showNotification('Please fill out all required fields', 'error');
       return;
     }
     
-    const readTime = calculateReadTime(content);
+    // Calculate read time based on content length
+    const wordCount = content.split(/\s+/).length;
+    const readTime = Math.max(1, Math.ceil(wordCount / 200)) + ' min read';
     
-    const newArticle = {
-      title,
-      category,
-      excerpt,
-      content: formatContentAsHtml(content),
-      imageUrl,
-      status: 'published',
-      readTime,
-      showTimeline: false
+    // Create article object with exact column names matching the database
+    const article = {
+      id: articleId || Date.now().toString(),
+      title: title,
+      category: category,
+      excerpt: excerpt,
+      content: content,
+      imageUrl: imageUrl,
+      readTime: readTime, 
+      showTimeline: false,
+      status: 'published'
     };
     
-    const createdArticle = await createArticle(newArticle);
+    console.log("Publishing article:", article);
     
-    if (createdArticle) {
-      // Reset form
-      document.getElementById('article-title').value = '';
-      document.getElementById('article-category').value = '';
-      document.getElementById('article-excerpt').value = '';
-      document.getElementById('article-content').value = '';
-      document.getElementById('article-image').value = '';
-      
-      await displayArticles();
-      showPublishSuccessDialog(createdArticle);
-    } else {
-      showNotification('Failed to publish article', 'error');
-    }
-  } catch (error) {
-    console.error('Error publishing article:', error);
-    showNotification('Failed to publish article', 'error');
+    // Use direct Supabase call to avoid any possible issues with the wrapper
+    supabase.from('articles')
+      .insert([article])
+      .select()
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error publishing article:", error);
+          showNotification('Error: ' + error.message, 'error');
+          return;
+        }
+        
+        console.log("Article published successfully:", data);
+        showNotification('Article published successfully!', 'success');
+        document.getElementById('publication-form').reset();
+        
+        // Show success dialog or redirect
+        const successDialog = document.getElementById('success-dialog');
+        if (successDialog) {
+          successDialog.classList.add('show');
+        }
+      })
+      .catch(error => {
+        console.error("Exception publishing article:", error);
+        showNotification('Error: ' + error.message, 'error');
+      });
+  } catch (e) {
+    console.error("Error in publish handler:", e);
+    showNotification('Error: ' + e.message, 'error');
   }
 }
 
@@ -572,9 +592,12 @@ function showPublishSuccessDialog(article) {
   successDialog.classList.add('show');
 }
 
-// Save draft
-async function saveDraftHandler() {
+// Handle saving draft
+function saveDraftHandler() {
+  console.log("Save draft button clicked");
+  
   try {
+    // Get form data
     const title = document.getElementById('article-title').value.trim();
     const category = document.getElementById('article-category').value;
     const excerpt = document.getElementById('article-excerpt').value.trim();
@@ -587,56 +610,46 @@ async function saveDraftHandler() {
       return;
     }
     
-    if (articleId) {
-      // Update existing
-      const success = await updateArticle(articleId, {
-        title,
-        category,
-        excerpt,
-        content: formatContentAsHtml(content),
-        imageUrl,
-        status: 'draft'
+    // Calculate read time based on content length
+    const wordCount = content.split(/\s+/).length;
+    const readTime = Math.max(1, Math.ceil(wordCount / 200)) + ' min read';
+    
+    // Create article object with exact column names matching the database
+    const article = {
+      id: articleId || Date.now().toString(),
+      title: title,
+      category: category || 'Uncategorized',
+      excerpt: excerpt || '',
+      content: content || '',
+      imageUrl: imageUrl,
+      readTime: readTime,
+      showTimeline: false,
+      status: 'draft'
+    };
+    
+    console.log("Saving draft:", article);
+    
+    // Use direct Supabase call
+    supabase.from('articles')
+      .insert([article])
+      .select()
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error saving draft:", error);
+          showNotification('Error: ' + error.message, 'error');
+          return;
+        }
+        
+        console.log("Draft saved successfully:", data);
+        showNotification('Draft saved successfully!', 'success');
+      })
+      .catch(error => {
+        console.error("Exception saving draft:", error);
+        showNotification('Error: ' + error.message, 'error');
       });
-      
-      if (!success) {
-        showNotification('Failed to update draft', 'error');
-        return;
-      }
-    } else {
-      // New draft
-      const newDraft = {
-        title,
-        category,
-        excerpt,
-        content: formatContentAsHtml(content),
-        imageUrl,
-        status: 'draft'
-      };
-      
-      const result = await createArticle(newDraft);
-      
-      if (!result) {
-        showNotification('Failed to save draft', 'error');
-        return;
-      }
-    }
-    
-    // Reset form
-    document.getElementById('article-id').value = '';
-    document.getElementById('article-title').value = '';
-    document.getElementById('article-category').value = '';
-    document.getElementById('article-excerpt').value = '';
-    document.getElementById('article-content').value = '';
-    document.getElementById('article-image').value = '';
-    document.getElementById('publish-btn').textContent = 'Publish Article';
-    document.getElementById('save-draft-btn').textContent = 'Save as Draft';
-    
-    await displayArticles();
-    document.querySelector('[data-tab="my-articles"]').click();
-    showNotification('Article saved as draft', 'success');
-  } catch (error) {
-    console.error('Error saving draft:', error);
-    showNotification('Failed to save draft', 'error');
+  } catch (e) {
+    console.error("Error in save draft handler:", e);
+    showNotification('Error: ' + e.message, 'error');
   }
 }
 
@@ -818,20 +831,34 @@ function fadeInOnScroll() {
 /***********************************************************************
  * 8) Event Listeners & Initialization
  ***********************************************************************/
-document.addEventListener('DOMContentLoaded', async () => {
-  // Initialize UI elements first
-  initializeThemeAndUI();
-  setupTabs();
-  setupCategoryFilter();
+// Make sure to attach these handlers to the buttons
+document.addEventListener('DOMContentLoaded', function() {
+  const publishBtn = document.getElementById('publish-btn');
+  const saveDraftBtn = document.getElementById('save-draft-btn');
   
-  // Set up navigation
-  document.querySelectorAll('[data-page]').forEach(link => {
-    link.addEventListener('click', event => {
-      event.preventDefault();
-      const pageId = link.getAttribute('data-page');
-      navigateTo(pageId);
-    });
-  });
+  if (publishBtn) {
+    publishBtn.addEventListener('click', publishArticleHandler);
+  }
+  
+  if (saveDraftBtn) {
+    saveDraftBtn.addEventListener('click', saveDraftHandler);
+  }
+});
+
+// Helper function to show notifications
+function showNotification(message, type) {
+  const notification = document.getElementById('notification');
+  if (!notification) return;
+  
+  notification.textContent = message;
+  notification.className = 'notification';
+  notification.classList.add(`notification-${type}`);
+  notification.classList.add('show');
+  
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 3000);
+}
   
   // Default to home page
   navigateTo('home-page');
