@@ -14,8 +14,8 @@ if (typeof window.supabase !== 'undefined') {
   console.error("Global supabase client not found - using fallback initialization");
   
   // Fallback initialization - this is just in case, but shouldn't be needed
-  const supabaseUrl = 'https://your-actual-project-url.supabase.co';
-  const supabaseKey = 'your-actual-anon-key';
+  const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';
   
   if (typeof supabaseClient !== 'undefined') {
     supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
