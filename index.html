@@ -2270,5 +2270,109 @@
   });
 </script>
 
+<div style="position: fixed; top: 10px; right: 10px; background: #f5f5f5; border: 1px solid #ccc; padding: 10px; z-index: 9999; width: 300px;">
+  <h3>Supabase Direct Test</h3>
+  <div style="margin: 10px 0;">
+    <button id="test-connection" style="padding: 5px; margin-right: 5px;">Test Connection</button>
+    <button id="test-create" style="padding: 5px;">Test Create</button>
+  </div>
+  <div id="test-result" style="font-size: 12px; max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const resultDiv = document.getElementById('test-result');
+  
+  function log(message, isError = false) {
+    const div = document.createElement('div');
+    div.style.color = isError ? 'red' : 'black';
+    div.style.borderBottom = '1px solid #eee';
+    div.style.padding = '3px 0';
+    div.textContent = message;
+    resultDiv.appendChild(div);
+    resultDiv.scrollTop = resultDiv.scrollHeight;
+    console.log(message);
+  }
+
+  // Test connection
+  document.getElementById('test-connection').addEventListener('click', async function() {
+    log('Testing Supabase connection...');
+    
+    try {
+      // Check if supabase is defined
+      if (typeof supabase === 'undefined') {
+        log('ERROR: supabase is not defined!', true);
+        
+        // Check if it's on window
+        if (typeof window.supabase !== 'undefined') {
+          log('Found supabase on window object');
+          supabase = window.supabase;
+        } else {
+          log('ERROR: supabase not found on window either', true);
+          return;
+        }
+      }
+      
+      log('Attempting to query articles table...');
+      const { data, error } = await supabase.from('articles').select('id').limit(3);
+      
+      if (error) {
+        log('ERROR: ' + error.message, true);
+        log('Code: ' + error.code, true);
+        return;
+      }
+      
+      log('Success! Found ' + (data ? data.length : 0) + ' articles');
+      if (data && data.length > 0) {
+        log('First article ID: ' + data[0].id);
+      }
+    } catch (e) {
+      log('EXCEPTION: ' + e.message, true);
+    }
+  });
+  
+  // Test create
+  document.getElementById('test-create').addEventListener('click', async function() {
+    log('Testing article creation...');
+    
+    try {
+      if (typeof supabase === 'undefined') {
+        log('ERROR: supabase is not defined!', true);
+        return;
+      }
+      
+      const testArticle = {
+        id: Date.now().toString(),
+        title: 'Test ' + new Date().toLocaleTimeString(),
+        category: 'Test Category',
+        excerpt: 'Test excerpt',
+        content: '<p>Test content</p>',
+        imageUrl: '/api/placeholder/800/400',
+        status: 'published',
+        date: new Date().toISOString(),
+        readTime: '1 min read',
+        showTimeline: false
+      };
+      
+      log('Creating article: ' + testArticle.title);
+      const { data, error } = await supabase.from('articles').insert([testArticle]).select();
+      
+      if (error) {
+        log('ERROR: ' + error.message, true);
+        log('Code: ' + error.code, true);
+        return;
+      }
+      
+      log('Success! Article created with ID: ' + (data[0]?.id || 'unknown'));
+      log('Try refreshing and checking the My Articles tab');
+    } catch (e) {
+      log('EXCEPTION: ' + e.message, true);
+    }
+  });
+  
+  log('Test panel loaded. Click buttons to test.');
+});
+</script>
+  
 </body>
 </html>
