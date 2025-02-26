@@ -553,19 +553,6 @@ async function editArticle(id) {
   }
 }
 
-// Show notification
-function showNotification(message, type) {
-  const notification = document.getElementById('notification');
-  notification.textContent = message;
-  notification.className = 'notification';
-  notification.classList.add(`notification-${type}`);
-  notification.classList.add('show');
-  
-  setTimeout(() => {
-    notification.classList.remove('show');
-  }, 3000);
-}
-
 // Success dialog after publishing
 function showPublishSuccessDialog(article) {
   const successDialog = document.getElementById('success-dialog');
