@@ -136,7 +136,8 @@ async function createArticle(article) {
       return null;
     }
     
-    // Using lowercase column names to match the database schema
+    // Create a new article object with exact column names matching the database
+    // Now the JavaScript property names match exactly with the database column names
     const newArticle = {
       id: article.id || Date.now().toString(),
       title: article.title,
@@ -145,9 +146,9 @@ async function createArticle(article) {
       content: article.content,
       status: article.status || 'published',
       date: new Date().toISOString(),
-      imageurl: article.imageUrl || '/api/placeholder/800/400', // lowercase!
-      readtime: article.readTime || '3 min read', // lowercase!
-      showtimeline: article.showTimeline || false // lowercase!
+      imageUrl: article.imageUrl || '/api/placeholder/800/400',  // Matches exactly 
+      readTime: article.readTime || '3 min read',                // Matches exactly
+      showTimeline: article.showTimeline || false                // Matches exactly
     };
     
     if (SUPABASE_DEBUG) console.log("Sending to Supabase:", newArticle);
@@ -183,7 +184,7 @@ async function updateArticle(id, updates) {
       return null;
     }
     
-    // Map JavaScript properties to lowercase database columns
+    // Map JavaScript properties directly to database columns (now matching exactly)
     const updatedFields = {
       title: updates.title,
       category: updates.category,
@@ -191,9 +192,9 @@ async function updateArticle(id, updates) {
       content: updates.content,
       status: updates.status,
       date: new Date().toISOString(),
-      imageurl: updates.imageUrl, // lowercase!
-      readtime: updates.readTime, // lowercase!
-      showtimeline: updates.showTimeline // lowercase!
+      imageUrl: updates.imageUrl,    // Now matches exactly
+      readTime: updates.readTime,    // Now matches exactly
+      showTimeline: updates.showTimeline  // Now matches exactly
     };
     
     // Remove undefined fields
@@ -217,6 +218,43 @@ async function updateArticle(id, updates) {
   } catch (e) {
     console.error("Exception updating article:", e);
     return null;
+  }
+}
+
+/**
+ * Add a comment to an article
+ * @param {string} articleId - Article ID
+ * @param {Object} comment - Comment object
+ * @returns {Promise<boolean>} - Success status
+ */
+async function addComment(articleId, comment) {
+  try {
+    if (!supabase) {
+      console.error("Cannot add comment - supabase is not initialized");
+      return false;
+    }
+    
+    const newComment = {
+      id: Date.now().toString(),
+      article_id: articleId,  // This matches our database column name with underscores
+      author: comment.author || 'Guest User',
+      content: comment.content,
+      date: new Date().toISOString()
+    };
+    
+    const { error } = await supabase
+      .from('comments')
+      .insert([newComment]);
+    
+    if (error) {
+      console.error("Error adding comment:", error);
+      return false;
+    }
+    
+    return true;
+  } catch (e) {
+    console.error("Error adding comment:", e);
+    return false;
   }
 }
 
@@ -245,43 +283,6 @@ async function deleteArticle(id) {
     return true;
   } catch (e) {
     console.error("Exception deleting article:", e);
-    return false;
-  }
-}
-
-/**
- * Add a comment to an article
- * @param {string} articleId - Article ID
- * @param {Object} comment - Comment object
- * @returns {Promise<boolean>} - Success status
- */
-async function addComment(articleId, comment) {
-  try {
-    if (!supabase) {
-      console.error("Cannot add comment - supabase is not initialized");
-      return false;
-    }
-    
-    const newComment = {
-      id: Date.now().toString(),
-      article_id: articleId, // Using snake_case for column name
-      author: comment.author || 'Guest User',
-      content: comment.content,
-      date: new Date().toISOString()
-    };
-    
-    const { error } = await supabase
-      .from('comments')
-      .insert([newComment]);
-    
-    if (error) {
-      console.error("Error adding comment:", error);
-      return false;
-    }
-    
-    return true;
-  } catch (e) {
-    console.error("Error adding comment:", e);
     return false;
   }
 }
