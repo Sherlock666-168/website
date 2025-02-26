@@ -1,4 +1,4 @@
-// supabase.js - Integration with Supabase for article management
+// supabase.js - Integration with Supabase for article and comment management
 
 // Debug mode
 const SUPABASE_DEBUG = true;
@@ -56,8 +56,6 @@ async function testConnection() {
 
 // Call the test
 testConnection();
-
-// Rest of your code remains the same...
 
 /**
  * Fetch all articles from Supabase
@@ -138,72 +136,36 @@ async function createArticle(article) {
       return null;
     }
     
-    // Map the article object to match the database schema exactly
-    // This way we only send fields that exist in the database
+    // Using lowercase column names to match the database schema
     const newArticle = {
       id: article.id || Date.now().toString(),
-      title: article.title || 'Untitled Article',
-      category: article.category || 'Uncategorized',
-      excerpt: article.excerpt || '',
-      content: article.content || '',
+      title: article.title,
+      category: article.category,
+      excerpt: article.excerpt,
+      content: article.content,
       status: article.status || 'published',
       date: new Date().toISOString(),
-      imageUrl: article.imageUrl || '/api/placeholder/800/400',
-      readTime: article.readTime || '3 min read',
-      showTimeline: article.showTimeline || false
+      imageurl: article.imageUrl || '/api/placeholder/800/400', // lowercase!
+      readtime: article.readTime || '3 min read', // lowercase!
+      showtimeline: article.showTimeline || false // lowercase!
     };
     
     if (SUPABASE_DEBUG) console.log("Sending to Supabase:", newArticle);
     
-    // First try with camelCase fields
-    try {
-      const { data, error } = await supabase
-        .from('articles')
-        .insert([newArticle])
-        .select();
-      
-      if (error) {
-        console.error("Error creating article with camelCase:", error);
-        throw error; // Let the catch block handle it
-      }
-      
-      if (SUPABASE_DEBUG) console.log("Article created successfully:", data);
-      return data[0];
-    } catch (camelCaseError) {
-      // If camelCase fails, try snake_case as a fallback
-      console.log("Trying snake_case field names as fallback");
-      
-      // Convert to snake_case
-      const snakeCaseArticle = {
-        id: newArticle.id,
-        title: newArticle.title,
-        category: newArticle.category,
-        excerpt: newArticle.excerpt,
-        content: newArticle.content,
-        status: newArticle.status,
-        date: newArticle.date,
-        image_url: newArticle.imageUrl, // snake_case version
-        read_time: newArticle.readTime, // snake_case version
-        show_timeline: newArticle.showTimeline // snake_case version
-      };
-      
-      const { data, error } = await supabase
-        .from('articles')
-        .insert([snakeCaseArticle])
-        .select();
-      
-      if (error) {
-        console.error("Error creating article with snake_case:", error);
-        // Both camelCase and snake_case failed
-        throw new Error(`Failed with both camelCase and snake_case: ${error.message}`);
-      }
-      
-      if (SUPABASE_DEBUG) console.log("Article created successfully with snake_case:", data);
-      return data[0];
+    const { data, error } = await supabase
+      .from('articles')
+      .insert([newArticle])
+      .select();
+    
+    if (error) {
+      console.error("Error creating article:", error);
+      return null;
     }
+    
+    if (SUPABASE_DEBUG) console.log("Article created successfully:", data);
+    return data[0];
   } catch (e) {
     console.error("Exception creating article:", e);
-    alert(`Error creating article: ${e.message}`);
     return null;
   }
 }
@@ -221,11 +183,23 @@ async function updateArticle(id, updates) {
       return null;
     }
     
-    // Always update the date when article is modified
+    // Map JavaScript properties to lowercase database columns
     const updatedFields = {
-      ...updates,
-      date: new Date().toISOString()
+      title: updates.title,
+      category: updates.category,
+      excerpt: updates.excerpt,
+      content: updates.content,
+      status: updates.status,
+      date: new Date().toISOString(),
+      imageurl: updates.imageUrl, // lowercase!
+      readtime: updates.readTime, // lowercase!
+      showtimeline: updates.showTimeline // lowercase!
     };
+    
+    // Remove undefined fields
+    Object.keys(updatedFields).forEach(key => 
+      updatedFields[key] === undefined && delete updatedFields[key]
+    );
     
     const { data, error } = await supabase
       .from('articles')
@@ -289,8 +263,8 @@ async function addComment(articleId, comment) {
     }
     
     const newComment = {
-      article_id: articleId,
       id: Date.now().toString(),
+      article_id: articleId, // Using snake_case for column name
       author: comment.author || 'Guest User',
       content: comment.content,
       date: new Date().toISOString()
@@ -327,7 +301,7 @@ async function fetchComments(articleId) {
     const { data, error } = await supabase
       .from('comments')
       .select('*')
-      .eq('article_id', articleId)
+      .eq('article_id', articleId) // Using snake_case for column name
       .order('date', { ascending: true });
     
     if (error) {
