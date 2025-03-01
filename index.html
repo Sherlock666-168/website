@@ -13,41 +13,38 @@
   <!-- Font Awesome for icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
   
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     /* ------------------------------------------------------------------
        CSS Variables for Theming
     ------------------------------------------------------------------ */
     :root {
-      /* Light Mode Colors - Modern palette */
+      /* Light Mode Colors */
       --primary-color: #4361ee;
-      --secondary-color: #6366f1;
-      --accent-color: #3bc9db;
-      --text-primary: #1a202c;
-      --text-secondary: #4a5568;
-      --bg-primary: #ffffff;
-      --bg-secondary: #f7fafc;
-      --bg-card: #ffffff;
-      --border-color: #e2e8f0;
-      --shadow-color: rgba(0, 0, 0, 0.05);
+      --secondary-color: #7209b7;
+      --accent-color: #3bceac;
+      --text-primary: #333;
+      --text-secondary: #666;
+      --bg-primary: #fff;
+      --bg-secondary: #f8f9fa;
+      --bg-card: #fff;
+      --border-color: #e0e0e0;
+      --shadow-color: rgba(0, 0, 0, 0.1);
       --code-bg: #f1f1f1;
     }
     
-    /* Dark Mode Colors - Elegant dark palette */
+    /* Dark Mode Colors */
     [data-theme="dark"] {
-      --primary-color: #38b2ac;
-      --secondary-color: #6366f1;
-      --accent-color: #4fd1c5;
-      --text-primary: #f7fafc;
-      --text-secondary: #cbd5e0;
-      --bg-primary: #111827;
-      --bg-secondary: #1f2937;
-      --bg-card: #1f2937;
-      --border-color: #374151;
+      --primary-color: #4cc9f0;
+      --secondary-color: #8a2be2;
+      --accent-color: #3bceac;
+      --text-primary: #f0f0f0;
+      --text-secondary: #c0c0c0;
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-card: #2a2a2a;
+      --border-color: #333;
       --shadow-color: rgba(0, 0, 0, 0.3);
-      --code-bg: #2d3748;
+      --code-bg: #2d2d2d;
     }
     
     /* Base Styles */
@@ -58,7 +55,7 @@
     }
     
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: var(--text-primary);
       background-color: var(--bg-primary);
@@ -79,17 +76,17 @@
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 20px;
     }
     
-    /* Header Styles - Modernized */
+    /* Header Styles */
     header {
       background-color: var(--bg-primary);
-      box-shadow: 0 1px 3px var(--shadow-color);
+      box-shadow: 0 2px 10px var(--shadow-color);
       position: sticky;
       top: 0;
       z-index: 1000;
-      padding: 16px 0;
+      padding: 15px 0;
       transition: background-color 0.3s ease;
     }
     
@@ -100,10 +97,9 @@
     }
     
     .logo {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: var(--primary-color);
-      letter-spacing: -0.5px;
     }
     
     .logo span {
@@ -113,14 +109,16 @@
     .nav-links {
       display: flex;
       list-style: none;
-      gap: 28px;
+    }
+    
+    .nav-links li {
+      margin-left: 25px;
     }
     
     .nav-links a {
-      font-weight: 500;
+      font-weight: 600;
       position: relative;
       color: var(--text-primary);
-      font-size: 0.95rem;
     }
     
     .nav-links a::after {
@@ -128,7 +126,7 @@
       position: absolute;
       width: 0;
       height: 2px;
-      bottom: -4px;
+      bottom: -5px;
       left: 0;
       background-color: var(--accent-color);
       transition: width 0.3s ease;
@@ -142,16 +140,11 @@
       width: 100%;
     }
     
-    .header-controls {
-      display: flex;
-      align-items: center;
-    }
-    
     .mobile-menu-btn {
       display: none;
       background: none;
       border: none;
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       color: var(--text-primary);
       cursor: pointer;
     }
@@ -159,69 +152,35 @@
     .theme-toggle {
       background: none;
       border: none;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--text-primary);
       cursor: pointer;
       margin-left: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      transition: background-color 0.3s ease;
     }
     
-    .theme-toggle:hover {
-      background-color: var(--bg-secondary);
-    }
-    
-    /* Hero Section - Complete redesign with proper photo placement */
+    /* Hero Section */
     .hero {
       padding: 80px 0;
       background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
       color: white;
-    }
-    
-    .hero-container {
-      display: flex;
-      align-items: center;
-      gap: 60px;
-    }
-    
-    .hero-content {
-      flex: 1;
+      text-align: center;
     }
     
     .hero h1 {
-      font-size: 2.8rem;
-      line-height: 1.2;
+      font-size: 3rem;
       margin-bottom: 20px;
-      font-weight: 700;
     }
     
     .hero p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 30px;
-      opacity: 0.9;
-    }
-    
-    .hero-image {
-      flex: 0 0 280px;
-    }
-    
-    .hero-image img {
-      width: 100%;
-      border-radius: 50%;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
     }
     
     .cta-btn {
       display: inline-block;
       background-color: var(--accent-color);
-      color: #1a202c;
+      color: #333;
       padding: 12px 30px;
       border-radius: 30px;
       font-weight: 600;
@@ -235,9 +194,9 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
     
-    /* Search Bar - Modernized */
+    /* Search Bar */
     .search-container {
-      padding: 24px 0;
+      padding: 20px 0;
       background-color: var(--bg-secondary);
     }
     
@@ -249,13 +208,12 @@
     
     .search-input {
       flex: 1;
-      padding: 14px 20px;
+      padding: 12px 20px;
       border: 1px solid var(--border-color);
       border-radius: 30px 0 0 30px;
-      font-size: 0.95rem;
+      font-size: 1rem;
       background-color: var(--bg-primary);
       color: var(--text-primary);
-      box-shadow: 0 2px 4px var(--shadow-color);
     }
     
     .search-button {
@@ -272,49 +230,33 @@
       background-color: var(--secondary-color);
     }
     
-    /* Featured Posts Section - Card redesign */
+    /* Featured Posts Section */
     .featured-posts {
-      padding: 80px 0;
+      padding: 60px 0;
     }
     
     .section-title {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
       font-size: 2rem;
       color: var(--primary-color);
-      position: relative;
-      padding-bottom: 15px;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background-color: var(--accent-color);
     }
     
     .posts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 30px;
     }
     
     .post-card {
       background-color: var(--bg-card);
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 5px 15px var(--shadow-color);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       opacity: 0;
       transform: translateY(20px);
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
     }
     
     .post-card.fade-in {
@@ -324,49 +266,40 @@
     }
     
     .post-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-10px);
       box-shadow: 0 15px 30px var(--shadow-color);
     }
     
     .card-image {
-      height: 180px;
+      height: 200px;
       background-size: cover;
       background-position: center;
     }
     
     .card-content {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
+      padding: 20px;
     }
     
     .post-category {
       display: inline-block;
       background-color: var(--primary-color);
       color: white;
-      font-size: 0.75rem;
-      padding: 4px 12px;
+      font-size: 0.8rem;
+      padding: 5px 10px;
       border-radius: 20px;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 600;
+      margin-bottom: 10px;
     }
     
     .post-title {
       font-size: 1.25rem;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--text-primary);
-      line-height: 1.4;
     }
     
     .post-excerpt {
       color: var(--text-secondary);
-      margin-bottom: 16px;
+      margin-bottom: 15px;
       font-size: 0.9rem;
-      line-height: 1.6;
-      flex-grow: 1;
     }
     
     .post-meta {
@@ -374,19 +307,18 @@
       justify-content: space-between;
       color: var(--text-secondary);
       font-size: 0.8rem;
-      margin-top: auto;
     }
     
-    /* About Section (Homepage) - Redesigned with better layout */
+    /* About Section (Homepage) */
     .about-preview {
-      padding: 80px 0;
+      padding: 60px 0;
       background-color: var(--bg-secondary);
     }
     
     .about-content {
       display: flex;
       align-items: center;
-      gap: 60px;
+      gap: 40px;
       opacity: 0;
       transform: translateY(20px);
     }
@@ -398,21 +330,16 @@
     }
     
     .about-image {
-      flex: 0 0 320px;
-      border-radius: 12px;
+      flex: 1;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 10px 30px var(--shadow-color);
+      box-shadow: 0 5px 15px var(--shadow-color);
     }
     
     .about-image img {
       width: 100%;
       height: auto;
       display: block;
-      transition: transform 0.5s ease;
-    }
-    
-    .about-image:hover img {
-      transform: scale(1.03);
     }
     
     .about-text {
@@ -420,73 +347,41 @@
     }
     
     .about-text h2 {
-      font-size: 2.2rem;
-      margin-bottom: 24px;
+      font-size: 2rem;
+      margin-bottom: 20px;
       color: var(--primary-color);
-    }
-    
-    .about-text p {
-      margin-bottom: 16px;
-      line-height: 1.7;
     }
     
     .read-more {
       display: inline-block;
-      margin-top: 24px;
+      margin-top: 20px;
       font-weight: 600;
-      position: relative;
-      padding-right: 24px;
     }
     
-    .read-more::after {
-      content: '→';
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      transition: transform 0.3s ease;
-    }
-    
-    .read-more:hover::after {
-      transform: translate(5px, -50%);
-    }
-    
-    /* Categories Section - Modern card design */
+    /* Categories Section */
     .categories {
-      padding: 80px 0;
+      padding: 60px 0;
     }
     
     .category-cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 30px;
+      gap: 20px;
     }
     
     .category-card {
       background-color: var(--bg-card);
-      border-radius: 12px;
-      padding: 30px 24px;
+      border-radius: 10px;
+      padding: 20px;
       text-align: center;
       box-shadow: 0 5px 15px var(--shadow-color);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease;
       opacity: 0;
       transform: translateY(20px);
       display: flex;
       flex-direction: column;
       height: 100%;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .category-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
     
     .category-card.fade-in {
@@ -497,26 +392,23 @@
     
     .category-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px var(--shadow-color);
     }
     
     .category-icon {
       font-size: 2.5rem;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       color: var(--secondary-color);
     }
     
     .category-card h3 {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--text-primary);
-      font-size: 1.2rem;
     }
     
     .category-card p {
       color: var(--text-secondary);
       font-size: 0.9rem;
-      margin-bottom: 20px;
-      line-height: 1.6;
+      margin-bottom: 15px;
     }
     
     .category-link-container {
@@ -525,7 +417,7 @@
     
     .category-card-link {
       display: inline-block;
-      padding: 8px 20px;
+      padding: 8px 16px;
       background-color: var(--primary-color);
       color: white;
       border-radius: 20px;
@@ -540,9 +432,386 @@
       color: white;
     }
 
-    /* Newsletter Section - Clean, modern design */
+    /* Blog Post Styles */
+    .blog-post {
+      padding: 60px 0;
+    }
+    
+    .post-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .post-header {
+      margin-bottom: 40px;
+    }
+    
+    .post-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+    
+    .post-meta-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+    }
+    
+    .post-date, .post-read-time {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .author-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .author-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .author-info h4 {
+      margin-bottom: 5px;
+    }
+    
+    .author-info p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    
+    .featured-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .post-content {
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    
+    .post-content h2 {
+      font-size: 1.8rem;
+      margin: 40px 0 20px;
+      color: var(--primary-color);
+    }
+    
+    .post-content h3 {
+      font-size: 1.5rem;
+      margin: 30px 0 15px;
+      color: var(--text-primary);
+    }
+    
+    .post-content p {
+      margin-bottom: 20px;
+    }
+    
+    .post-content ul, .post-content ol {
+      margin: 0 0 20px 20px;
+    }
+    
+    .post-content li {
+      margin-bottom: 10px;
+    }
+    
+    .post-content blockquote {
+      border-left: 4px solid var(--primary-color);
+      padding-left: 20px;
+      font-style: italic;
+      margin: 20px 0;
+      color: var(--text-secondary);
+    }
+    
+    /* Code Snippet */
+    .code-container {
+      background-color: var(--code-bg);
+      border-radius: 10px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+    
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px 20px;
+    }
+    
+    .code-title {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .copy-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .copy-button:hover {
+      color: var(--primary-color);
+    }
+    
+    .code-content {
+      padding: 20px;
+      overflow-x: auto;
+    }
+    
+    .code-content pre {
+      margin: 0;
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* Publication Tool Styles */
+    .publication-tool {
+      padding: 60px 0;
+      background-color: var(--bg-secondary);
+    }
+    
+    .publication-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
+    
+    .publication-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .publication-header h2 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .publication-header p {
+      color: var(--text-secondary);
+    }
+    
+    .publication-form {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .form-input, .form-textarea, .form-select {
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      width: 100%;
+    }
+    
+    .form-textarea {
+      min-height: 300px;
+      resize: vertical;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .form-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    
+    .save-draft-btn, .publish-btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .save-draft-btn {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    .save-draft-btn:hover {
+      background-color: var(--border-color);
+    }
+    
+    .publish-btn {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .publish-btn:hover {
+      transform: translateY(-3px);
+      background-color: var(--secondary-color);
+    }
+    
+    /* Articles Management */
+    .articles-management {
+      padding: 60px 0;
+    }
+    
+    .articles-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .articles-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .create-article-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    
+    .create-article-btn:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    .articles-grid {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .article-card {
+      display: flex;
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .article-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .article-image {
+      width: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .article-details {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .article-status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+    
+    .status-published {
+      background-color: #4caf50;
+      color: white;
+    }
+    
+    .status-draft {
+      background-color: #ff9800;
+      color: white;
+    }
+    
+    .article-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .article-excerpt {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      flex-grow: 1;
+    }
+    
+    .article-meta {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .article-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .article-action-btn {
+      padding: 5px 10px;
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .article-action-btn:hover {
+      background-color: var(--border-color);
+    }
+    
+    .delete-btn {
+      background-color: #ff5252;
+      color: white;
+    }
+    
+    .delete-btn:hover {
+      background-color: #ff1744;
+    }
+    
+    /* Newsletter Section */
     .newsletter {
-      padding: 80px 0;
+      padding: 60px 0;
       background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
       color: white;
       text-align: center;
@@ -556,7 +825,6 @@
     .newsletter p {
       max-width: 600px;
       margin: 0 auto 30px;
-      opacity: 0.9;
     }
     
     .newsletter-form {
@@ -567,7 +835,7 @@
     
     .newsletter-input {
       flex: 1;
-      padding: 14px 20px;
+      padding: 12px 20px;
       border: none;
       border-radius: 30px 0 0 30px;
       font-size: 1rem;
@@ -575,7 +843,7 @@
     
     .newsletter-button {
       background-color: var(--accent-color);
-      color: #1a202c;
+      color: #333;
       border: none;
       padding: 0 25px;
       border-radius: 0 30px 30px 0;
@@ -583,7 +851,7 @@
       cursor: pointer;
     }
     
-    /* Footer - Cleaner design */
+    /* Footer */
     footer {
       background-color: var(--bg-secondary);
       color: var(--text-secondary);
@@ -600,19 +868,7 @@
     .footer-section h3 {
       color: var(--text-primary);
       margin-bottom: 20px;
-      font-size: 1.1rem;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 30px;
-      height: 2px;
-      background-color: var(--accent-color);
+      font-size: 1.25rem;
     }
     
     .footer-links {
@@ -626,7 +882,6 @@
     .footer-links a {
       color: var(--text-secondary);
       transition: color 0.3s ease;
-      font-size: 0.9rem;
     }
     
     .footer-links a:hover {
@@ -639,16 +894,10 @@
     }
     
     .social-links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
       color: var(--text-secondary);
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       transition: color 0.3s ease, transform 0.3s ease;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background-color: var(--bg-primary);
     }
     
     .social-links a:hover {
@@ -660,27 +909,439 @@
       text-align: center;
       padding-top: 20px;
       border-top: 1px solid var(--border-color);
-      font-size: 0.9rem;
+    }
+    
+    /* Tabs for Publication */
+    .tabs-container {
+      margin-bottom: 30px;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-secondary);
+      position: relative;
+    }
+    
+    .tab.active {
+      color: var(--primary-color);
+    }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -1px;
+      left: 0;
+      background-color: var(--primary-color);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Timeline Component */
+    .timeline-container {
+      max-width: 800px;
+      margin: 40px auto;
+      position: relative;
+    }
+    
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      background: var(--primary-color);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .timeline-date {
+      width: 30%;
+      text-align: right;
+      padding-right: 30px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    .timeline-info {
+      width: 30%;
+      text-align: left;
+      padding-left: 30px;
+    }
+    
+    .timeline-point {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--secondary-color);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    
+    .timeline-point::before {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    /* Animation Styles */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .no-articles-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-style: italic;
+      background-color: var(--bg-secondary);
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    /* Search Results */
+    .search-results {
+      background-color: var(--bg-secondary);
+      padding: 40px 0;
+      display: none;
+    }
+    
+    .search-results-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .search-results-header {
+      margin-bottom: 30px;
+    }
+    
+    .search-results-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .search-results-header p {
+      color: var(--text-secondary);
+    }
+    
+    .search-results-list {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .search-result-item {
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .search-result-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .search-result-category {
+      display: inline-block;
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .search-result-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .search-result-excerpt {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+    }
+    
+    .search-result-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: white;
+      font-weight: 600;
+      max-width: 300px;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .notification-success {
+      background-color: #4caf50;
+    }
+    
+    .notification-error {
+      background-color: #f44336;
+    }
+    
+    /* Success Dialog */
+    .success-dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999999;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .success-dialog.show {
+      display: flex;
+    }
+    
+    .success-dialog-content {
+      background-color: var(--bg-card);
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .success-icon {
+      font-size: 3rem;
+      color: #4caf50;
+      margin-bottom: 20px;
+    }
+    
+    .success-dialog h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .success-dialog p {
+      margin-bottom: 25px;
+      color: var(--text-secondary);
+    }
+    
+    .success-dialog-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .dialog-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .primary-btn {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .primary-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+    
+    .secondary-btn {
+      background-color: var(--accent-color);
+      color: #333;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #2ab896;
+      transform: translateY(-3px);
+    }
+    
+    .close-btn {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    .close-btn:hover {
+      background-color: var(--border-color);
+    }
+    
+    /* New Feature: Comments Section */
+    .comments-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .comments-header {
+      margin-bottom: 20px;
+    }
+    
+    .comments-header h3 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .comments-form {
+      margin-bottom: 30px;
+    }
+    
+    .comments-textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      margin-bottom: 15px;
+      min-height: 100px;
+      resize: vertical;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .comments-submit {
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .comments-submit:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    .comments-list {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .comment {
+      background-color: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .comment-author {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .comment-date {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    
+    .comment-content {
+      color: var(--text-primary);
+      line-height: 1.5;
     }
     
     /* Media Queries */
     @media screen and (max-width: 992px) {
-      .hero-container {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .hero-image {
-        order: -1;
-        flex: 0 0 200px;
-      }
-      
       .about-content {
         flex-direction: column;
       }
-      
-      .about-text {
-        text-align: center;
+      .article-image {
+        width: 150px;
+      }
+      .timeline-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 30px;
+      }
+      .timeline-container::before {
+        left: 0;
+        transform: none;
+      }
+      .timeline-point {
+        left: 0;
+        transform: none;
+      }
+      .timeline-date, .timeline-info {
+        width: 100%;
+        text-align: left;
+        padding: 0;
+        margin-bottom: 10px;
       }
     }
     
@@ -688,38 +1349,95 @@
       .nav-links {
         display: none;
       }
-      
       .mobile-menu-btn {
         display: block;
       }
-      
-      .post-title {
-        font-size: 1.8rem;
+      .article-card {
+        flex-direction: column;
       }
-      
-      .hero h1 {
-        font-size: 2.2rem;
+      .article-image {
+        width: 100%;
+        height: 150px;
+      }
+      .post-title {
+        font-size: 2rem;
       }
     }
     
     @media screen and (max-width: 576px) {
-      .section-title {
-        font-size: 1.6rem;
+      .hero h1 {
+        font-size: 2rem;
       }
-      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      .post-title {
+        font-size: 1.8rem;
+      }
       .search-form, .newsletter-form {
         flex-direction: column;
       }
-      
       .search-input, .newsletter-input {
         border-radius: 30px;
         margin-bottom: 10px;
       }
-      
       .search-button, .newsletter-button {
         border-radius: 30px;
         padding: 10px;
       }
+      .post-meta-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .form-buttons {
+        flex-direction: column;
+      }
+    }
+    
+    /* For the mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-primary);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-menu-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .mobile-nav-links a {
+      font-size: 1.5rem;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -727,6 +1445,7 @@
   <!-- Header -->
   <header>
     <div class="container header-container">
+      <!-- Updated Site Name -->
       <a href="#" class="logo" onclick="navigateTo('home-page')">Sherlock<span>AI</span>Space</a>
       <nav>
         <ul class="nav-links">
@@ -771,22 +1490,23 @@
 
   <!-- Main Content - Home Page -->
   <main id="home-page" class="page">
-    <!-- Hero Section - Redesigned with photo properly positioned -->
+    <!-- Hero Section -->
     <section class="hero">
-      <div class="container hero-container">
-        <div class="hero-content">
-          <h1>Exploring AI, Tech Breakthroughs & My Career Journey</h1>
-          <p>
-            Welcome to my personal platform, where I share AI news, tech discoveries, and 
-            reflections on my ongoing product management journey. I'm Sherlock Chu—glad you're here!
-          </p>
-          <button onclick="document.getElementById('featured-posts').scrollIntoView({behavior: 'smooth'})" class="cta-btn">
-            Check Out My Recent Posts
-          </button>
-        </div>
-        <div class="hero-image">
-          <img src="images/my-photo.jpg" alt="Sherlock Chu" />
-        </div>
+      <div class="container">
+        <h1>Exploring AI, Tech Breakthroughs & My Personal Career Journey</h1>
+        <p>
+          Welcome to my personal platform, where I share AI news, tech discoveries, and 
+          reflections on my ongoing product management journey. I’m Sherlock Chu—glad you’re here!
+        </p>
+        
+        <!-- Here's the new image you add -->
+        <img src="images/my-photo.jpg" 
+             alt="Sherlock Chu Photo" 
+             style="max-width: 200px; margin: 20px 0;" />
+        
+        <button onclick="document.getElementById('featured-posts').scrollIntoView({behavior: 'smooth'})" class="cta-btn">
+          Check Out My Recent Posts
+        </button>
       </div>
     </section>
     
@@ -805,7 +1525,7 @@
     <!-- Featured Posts Section -->
     <section class="featured-posts" id="featured-posts">
       <div class="container">
-        <h2 class="section-title">Sherlock's Latest AI & Tech Posts</h2>
+        <h2 class="section-title">Sherlock’s Latest AI & Tech Posts</h2>
         <div class="posts-grid" id="featured-posts-grid">
           <!-- Posts will be loaded here dynamically -->
         </div>
@@ -822,17 +1542,17 @@
           <div class="about-text">
             <h2>Hi, I'm Sherlock Chu</h2>
             <p>
-              I'm an MBA candidate at UC Berkeley's Haas School of Business (Class of 2025),
+              I'm an MBA candidate at UC Berkeley’s Haas School of Business (Class of 2025),
               with over five years of experience in AI-driven product management. 
               I've led teams at Amazon (AGI Org), Alibaba, and also ventured into data science roles 
-              at Xiaohongshu and a SaaS startup.
+              at Xiaohongshu and a SaaS startup. On this site, I'll explore exciting AI trends, 
+              share my personal experiments with machine learning, and reflect on my professional journey.
             </p>
             <p>
-              On this site, I'll explore exciting AI trends, share my personal experiments with machine learning, 
-              and reflect on my professional journey. I'm actively seeking new career opportunities in AI product 
-              management—if you'd like to connect or have a project in mind, I'd love to hear from you!
+              I’m actively seeking new career opportunities in AI product management—if you’d like to connect 
+              or have a project in mind, I'd love to hear from you!
             </p>
-            <a href="#" class="read-more" data-page="about-page">Get to Know Me Better</a>
+            <a href="#" class="read-more" data-page="about-page">Get to Know Me Better →</a>
           </div>
         </div>
       </div>
@@ -903,8 +1623,90 @@
     </section>
   </main>
   
-  <!-- All other pages remain structurally the same but would get UI improvements -->
-  <!-- The styling above would apply to them as well -->
+  <!-- Blog List Page -->
+  <div id="blog-list-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Sherlock’s Blog</h1>
+          <p>
+            Welcome to my collection of articles—covering AI news, product management tips, 
+            personal reflections, and deep dives into technology.
+          </p>
+        </header>
+        <div class="category-filter">
+          <button class="filter-btn active" data-category="all">All</button>
+          <button class="filter-btn" data-category="AI News">AI News</button>
+          <button class="filter-btn" data-category="Agent Technology">Agent Technology</button>
+          <button class="filter-btn" data-category="Career Development">Career Development</button>
+          <button class="filter-btn" data-category="Technical Deep Dive">Technical Deep Dives</button>
+        </div>
+        <div class="posts-grid" id="all-posts-grid">
+          <!-- Posts will be loaded here dynamically -->
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Publication Tool Page -->
+  <div id="publication-page" class="page" style="display: none;">
+    <section class="publication-tool">
+      <div class="container">
+        <div class="publication-container">
+          <header class="publication-header">
+            <h2>Create and Publish Content</h2>
+            <p>Share your insights on AI, tech, and more.</p>
+          </header>
+          <div class="tabs-container">
+            <div class="tabs">
+              <div class="tab active" data-tab="new-article">New Article</div>
+              <div class="tab" data-tab="my-articles">My Articles</div>
+            </div>
+          </div>
+          <div class="tab-content active" id="new-article-content">
+            <form id="publication-form" class="publication-form">
+              <input type="hidden" id="article-id">
+              <div class="form-group">
+                <label for="article-title" class="form-label">Title</label>
+                <input type="text" id="article-title" class="form-input" placeholder="Enter article title" required>
+              </div>
+              <div class="form-group">
+                <label for="article-category" class="form-label">Category</label>
+                <select id="article-category" class="form-select" required>
+                  <option value="">Select a category</option>
+                  <option value="AI News">AI News</option>
+                  <option value="Agent Technology">Agent Technology</option>
+                  <option value="Career Development">Career Development</option>
+                  <option value="Technical Deep Dive">Technical Deep Dive</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="article-excerpt" class="form-label">Excerpt</label>
+                <input type="text" id="article-excerpt" class="form-input" placeholder="A brief summary of your article (max 150 characters)" required>
+              </div>
+              <div class="form-group">
+                <label for="article-content" class="form-label">Content</label>
+                <textarea id="article-content" class="form-textarea" placeholder="Write your article here. You can use markdown for formatting." required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="article-image" class="form-label">Featured Image URL</label>
+                <input type="text" id="article-image" class="form-input" placeholder="Enter image URL or leave blank for default">
+              </div>
+              <div class="form-buttons">
+                <button type="button" id="save-draft-btn" class="save-draft-btn">Save as Draft</button>
+                <button type="button" id="publish-btn" class="publish-btn">Publish Article</button>
+              </div>
+            </form>
+          </div>
+          <div class="tab-content" id="my-articles-content">
+            <div class="articles-grid" id="articles-list">
+              <!-- Articles will be loaded here dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
   
   <!-- Success Message Dialog -->
   <div id="success-dialog" class="success-dialog">
@@ -921,53 +1723,688 @@
       </div>
     </div>
   </div>
+  
+  <!-- Single Blog Post Page -->
+  <div id="blog-post-page" class="page" style="display: none;">
+    <article class="blog-post" data-article-id="">
+      <div class="container post-container">
+        <header class="post-header">
+          <span class="post-category" id="post-category">Category</span>
+          <h1 class="post-title" id="post-title">Article Title</h1>
+          <div class="post-meta-container">
+            <div class="post-date">
+              <i class="far fa-calendar-alt"></i>
+              <span id="post-date">Date</span>
+            </div>
+            <div class="post-read-time">
+              <i class="far fa-clock"></i>
+              <span id="post-read-time">Read time</span>
+            </div>
+          </div>
+          <div class="author">
+            <div class="author-image">
+              <img src="/api/placeholder/100/100" alt="Author">
+            </div>
+            <div class="author-info">
+              <h4>Sherlock Chu</h4>
+              <p>AI Product Manager & Tech Enthusiast</p>
+            </div>
+          </div>
+        </header>
+        <img src="/api/placeholder/800/400" alt="Featured Image" class="featured-image" id="post-image">
+        <div class="post-content" id="post-content">
+          <!-- Post content will be loaded here dynamically -->
+        </div>
+        
+        <!-- AI Agents Timeline (for certain articles if needed) -->
+        <div class="timeline-container" id="ai-agents-timeline" style="display: none;">
+          <h2>Evolution of AI Agents Timeline</h2>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">1960s-1970s</div>
+              <div class="timeline-info">
+                <h3>Rule-Based Systems</h3>
+                <p>Early AI agents relied on explicit if-then rules programmed by humans.</p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">1980s-1990s</div>
+              <div class="timeline-info">
+                <h3>Expert Systems</h3>
+                <p>Knowledge-based systems that emulated human expertise in specific domains.</p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2000s</div>
+              <div class="timeline-info">
+                <h3>Statistical Learning</h3>
+                <p>Agents began incorporating machine learning and statistical methods.</p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2010s</div>
+              <div class="timeline-info">
+                <h3>Deep Learning</h3>
+                <p>Neural networks ascended, enabling breakthroughs in speech, vision, and NLP.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Additional timeline items as needed -->
+        </div>
+      </div>
+    </article>
+  </div>
+  
+  <!-- Resources Page -->
+  <div id="resources-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Resources</h1>
+          <p>Handpicked articles, reports, and summaries to expand your knowledge.</p>
+        </header>
+        <div class="posts-grid" id="resources-grid">
+          <!-- Insert the 2-page PDF summary here as static text -->
+          <article class="post-card fade-in" style="padding:20px;">
+            <h2>2025 AI Agent Tech Stack: My Two-Page Summary</h2>
+            <p><em>
+              I recently analyzed a comprehensive industry report on modern AI agent stacks. 
+              Here’s my concise summary of the core layers, major players, and top trends shaping AI in 2025.
+            </em></p>
+            <p>
+              <strong>1. Overview of the AI Agent Stack:</strong><br>
+              AI agents are structured in layered stacks. Each layer plays a distinct role 
+              in enabling autonomous, AI-driven solutions. A typical stack includes:
+              (1) Frontend (User Interface), 
+              (2) Orchestration (managing prompt flows and tool usage), 
+              (3) Foundational Models (the “brain”), 
+              (4) Tools (plugins and external APIs), 
+              (5) Memory (often via vector databases), 
+              (6) Traditional Databases (structured knowledge/data), 
+              (7) Observability (monitoring), 
+              (8) Infrastructure (cloud orchestration), 
+              and (9) Hardware (GPUs, specialized chips).
+              By coordinating each layer—retrieving relevant data, prompting a large model, 
+              and calling external services—agents deliver end-to-end intelligent experiences.
+            </p>
+            <p>
+              <strong>2. Major Players & Competitive Landscape:</strong><br>
+              In the frontend layer, frameworks like Streamlit and Gradio make AI UI creation fast, 
+              while enterprise players embed agents in Slack or Teams. Orchestration libraries 
+              (e.g., LangChain, LlamaIndex) handle prompt chaining and tool integration. 
+              Foundational Models see a fierce race among OpenAI (GPT-4), Google (PaLM/Gemini), 
+              Anthropic (Claude), and open-source communities (Meta’s LLaMA 2, etc.). 
+              Tools are accessed via plugin ecosystems (OpenAI Plugins) or services like Zapier. 
+              Memory solutions (Zep, Mem0) store context, while Observability platforms (LangSmith, Helicone, Arize) 
+              track and debug agent workflows. Cloud providers (AWS, Azure, GCP) power the infrastructure, 
+              with NVIDIA dominating GPU hardware but facing challengers like AMD or Google’s TPUs.
+            </p>
+            <p>
+              <strong>3. Technological Trends & Innovations:</strong><br>
+              - <em>Frontend UI/UX:</em> Rise of low-code/no-code chat builders and multimodal interfaces (voice, AR).<br>
+              - <em>Memory & Retrieval:</em> Hybrid retrieval, summarization, knowledge graphs, 
+                all aiming to handle larger context windows with more accuracy.<br>
+              - <em>Tools Ecosystem:</em> Standardized plugin interfaces, dynamic tool selection, 
+                and stricter permissioning for safe usage.<br>
+              - <em>Observability:</em> Converging with evaluation for real-time analytics and quality checks; 
+                self-hosted options address privacy concerns.<br>
+              - <em>Orchestration:</em> Multi-agent setups, “reflection loops,” and auto-chaining to reduce manual prompt engineering.<br>
+              - <em>Foundational Models:</em> Larger context windows (100K tokens+), 
+                open-source performance gains, and domain-specific fine-tuning. 
+                Multimodal models are poised to transform how AI interacts with text, images, and beyond.<br>
+              - <em>Databases:</em> Vector search merges into mainstream SQL/NoSQL solutions, 
+                simplifying data pipelines for AI.<br>
+              - <em>Infrastructure & Hardware:</em> Specialized GPU/TPU instances, 
+                optimized inference servers, and cost-conscious scaling solutions.
+            </p>
+            <p>
+              <strong>4. Market Drivers & User Needs:</strong><br>
+              - <em>Ease of Integration:</em> Devs want frictionless ways to embed AI into web and enterprise workflows.<br>
+              - <em>Performance & Cost:</em> High compute expenses drive demand for more efficient or smaller models.<br>
+              - <em>Security & Compliance:</em> On-prem solutions, encrypted memory, and compliance certifications 
+                are critical for regulated sectors.<br>
+              - <em>Customization & Control:</em> Fine-tuning, brand alignment, and strong user-level permission controls.<br><br>
+              Overall, we see an expanding ecosystem of specialized layers that form a cohesive pipeline. 
+              As AI adoption accelerates, solutions that can be flexibly integrated, carefully observed, 
+              and reliably scaled will lead. Open-source LLMs are eroding the gap with proprietary models, 
+              offering lower-cost and private deployments—placing more pressure on commercial providers. 
+              We’re moving into a new era of “agentic” AI, where software can autonomously plan, reason, 
+              and interact with the world to accomplish tasks with minimal human oversight. 
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Case Studies Page -->
+  <div id="case-studies-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Case Studies</h1>
+          <p>In-depth examples and real-world applications of AI and product strategy.</p>
+        </header>
+        <div class="posts-grid" id="case-studies-grid">
+          <!-- Content or dynamic loading here -->
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- About Page -->
+  <div id="about-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>About Sherlock</h1>
+        </header>
+        <p>
+          My name is Sherlock Chu. I’m currently pursuing my MBA at UC Berkeley’s Haas School of Business (Class of 2025), 
+          focusing on product strategy and AI innovation. Before grad school, I spent several years in large tech and startup environments:
+        </p>
+        <ul>
+          <li><strong>Amazon (AGI Org):</strong> As a Technical Product Manager Intern, I built an LLM-powered video search feature for NextGen Alexa, 
+            boosting user engagement by 25% and delivering next-generation conversational experiences.</li>
+          <li><strong>Alibaba Group:</strong> I led cross-functional teams to develop merchant-facing AI solutions, driving $2.3B annual GMV growth 
+            and introducing features that bolstered SMB success. </li>
+          <li><strong>Xiaohongshu:</strong> I managed data-driven growth and monetization strategies for a rapidly expanding social media platform, 
+            helping daily active users soar to over 4M.</li>
+          <li><strong>Athentek:</strong> At a 40-person SaaS startup, I worked as a Machine Learning Engineer, 
+            enhancing foot traffic analytics by 25% and generating $0.4M in additional software sales.</li>
+        </ul>
+        <p>
+          I’m passionate about bridging technical know-how (Python, Java, data analysis, ML) with user-centric design. 
+          Outside of building products, I’m also a licensed snowboarding coach—so if I’m not prototyping or analyzing data, 
+          I’m probably on the slopes.
+        </p>
+        <p>
+          As I approach graduation, I’m exploring opportunities in AI product management. 
+          If you’d like to collaborate, swap ideas, or discuss potential roles, feel free to contact me below!
+        </p>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Resources or Additional Pages Hidden Here (already used resources-page) -->
+  
+  <!-- Contact Page -->
+  <div id="contact-page" class="page" style="display: none;">
+    <section class="blog-list">
+      <div class="container">
+        <header class="page-header">
+          <h1>Contact</h1>
+          <p>Feel free to reach out if you have opportunities, collaboration ideas, or simply want to say hello!</p>
+        </header>
+        <!-- You can add a form or your email contact here -->
+      </div>
+    </section>
+  </div>
 
-  <!-- Keep all original script includes -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
-  <script>
-    // Check if the supabase library loaded correctly
-    (function() {
-      console.log("Checking Supabase CDN load status:");
-      console.log("- supabase global object exists:", typeof supabase !== 'undefined');
-      if (typeof supabase !== 'undefined') {
-        console.log("- supabase.createClient exists:", typeof supabase.createClient === 'function');
-        console.log("- Available methods on supabase:", Object.keys(supabase));
+  <!-- Scripts and supporting JS code remain the same -->
+  
+<!-- Basic Site Functionality (non-article related) -->
+<script>
+  /***********************************************************************
+   * 1) Global theme state
+   ***********************************************************************/
+  const siteSettings = {
+    theme: localStorage.getItem('theme') || 'light'
+  };
+
+  /***********************************************************************
+   * 2) Basic Theme Toggle, Mobile Menu, and Navigation Router
+   ***********************************************************************/
+  const body = document.body;
+  const themeToggle = document.getElementById('theme-toggle');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+  // Apply stored theme on load
+  if (siteSettings.theme === 'dark') {
+    body.setAttribute('data-theme', 'dark');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+
+  // Toggle theme button
+  themeToggle.addEventListener('click', () => {
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.removeAttribute('data-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      siteSettings.theme = 'light';
+      localStorage.setItem('theme', 'light');
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      siteSettings.theme = 'dark';
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Mobile menu controls
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+    });
+  }
+  
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+  }
+  
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+  });
+
+  function navigateTo(pageId) {
+    showPage(pageId);
+  }
+
+  function showPage(pageId) {
+    // Hide all .page elements
+    document.querySelectorAll('.page').forEach(page => {
+      page.style.display = 'none';
+    });
+    // Show the chosen page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+      targetPage.style.display = 'block';
+      window.scrollTo(0, 0);
+    } else {
+      console.warn('Page not found:', pageId);
+      // fallback to home if not found
+      document.getElementById('home-page').style.display = 'block';
+    }
+    // Update active nav link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('data-page') === pageId) {
+        link.classList.add('active');
       }
-    })();
-  </script>
+    });
+  }
 
-  <script>
-    // Immediately create the Supabase client when the script loads
-    console.log("Creating global Supabase client...");
+  function initRouter() {
+    // default to home page
+    navigateTo('home-page');
+  }
+
+  /***********************************************************************
+   * 3) Basic Navigation & UI Setup - Non-article related
+   ***********************************************************************/
+
+  // Fade In on Scroll
+  function fadeInOnScroll() {
+    const elements = document.querySelectorAll('.post-card:not(.fade-in), .category-card:not(.fade-in), .about-content:not(.fade-in)');
+    elements.forEach(el => {
+      const top = el.getBoundingClientRect().top;
+      const screenPosition = window.innerHeight;
+      if (top < screenPosition - 100) {
+        el.classList.add('fade-in');
+      }
+    });
+  }
+
+  // Basic document ready initialization for UI elements
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set up navigation links
+    document.querySelectorAll('[data-page]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const pageId = link.getAttribute('data-page');
+        navigateTo(pageId);
+      });
+    });
     
-    // Your actual Supabase credentials
-    const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';
+    // Initialize router
+    initRouter();
     
-    // Create global variables that other scripts can access
-    try {
-      // The CDN version of Supabase exposes 'supabase' not 'supabaseClient'
-      if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
-        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-        console.log("Global supabase client created successfully");
+    // Newsletter form
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', e => {
+        e.preventDefault();
+        showNotification('Thank you for subscribing to our newsletter!', 'success');
+        newsletterForm.reset();
+      });
+    }
+    
+    // Animate on scroll
+    window.addEventListener('scroll', fadeInOnScroll);
+    fadeInOnScroll();
+  });
+</script>
+
+  <!-- Supabase JS library from CDN -->
+<!-- Replace the current Supabase CDN and initialization scripts with this code -->
+
+
+
+
+
+  
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
+<!-- Add the checker script right here, between the CDN and initialization -->
+<script>
+// Check if the supabase library loaded correctly
+(function() {
+  console.log("Checking Supabase CDN load status:");
+  console.log("- supabase global object exists:", typeof supabase !== 'undefined');
+  if (typeof supabase !== 'undefined') {
+    console.log("- supabase.createClient exists:", typeof supabase.createClient === 'function');
+    console.log("- Available methods on supabase:", Object.keys(supabase));
+  }
+})();
+</script>
+
+
+<!-- Initialization script - runs immediately -->
+<script>
+  // Immediately create the Supabase client when the script loads
+  console.log("Creating global Supabase client...");
+  
+  // Your actual Supabase credentials
+  const supabaseUrl = 'https://bzznurbfcjszrvdlxabj.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6em51cmJmY2pzenJ2ZGx4YWJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMDcyMzMsImV4cCI6MjA1NTc4MzIzM30.9PqT8vvFy8OxQD3Xf0eTEIIu116oaGlCPBwWdH9DlZg';
+  
+  // Create global variables that other scripts can access
+  try {
+    // The CDN version of Supabase exposes 'supabase' not 'supabaseClient'
+    if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
+      window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+      console.log("Global supabase client created successfully");
+    } else {
+      throw new Error("Supabase library not loaded correctly");
+    }
+  } catch (e) {
+    console.error("Error creating Supabase client:", e);
+    alert("Failed to initialize Supabase. See console for details.");
+  }
+</script>
+
+<!-- Then include your module scripts -->
+<script src="supabase.js" type="module"></script>
+<script src="app.js" type="module"></script>
+
+<!-- <script>
+  // Ensure this script runs after DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM loaded - running direct fix script");
+    
+    // Fix for tab navigation
+    function setupTabs() {
+      console.log("Setting up tabs");
+      const tabs = document.querySelectorAll('.tab');
+      if (tabs.length > 0) {
+        console.log("Found tabs:", tabs.length);
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            console.log("Tab clicked:", tab.getAttribute('data-tab'));
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const tabId = tab.getAttribute('data-tab');
+            const tabContent = document.getElementById(`${tabId}-content`);
+            if (tabContent) {
+              tabContent.classList.add('active');
+            }
+          });
+        });
       } else {
-        throw new Error("Supabase library not loaded correctly");
+        console.log("No .tab elements found");
+        
+        // Try alternative tab selectors
+        const altTabs = document.querySelectorAll('[data-tab]');
+        console.log("Alternative tabs found:", altTabs.length);
+      }
+    }
+    
+    // Fix for publish and save draft buttons
+    function setupPublishButtons() {
+      console.log("Setting up publish buttons");
+      
+      // Get all possible button combinations
+      const publishBtn = document.querySelector('.publish-btn') || 
+                         document.getElementById('publish-btn') ||
+                         document.getElementById('publish-article') ||
+                         document.querySelector('button[type="button"].publish-btn');
+                         
+      const saveDraftBtn = document.querySelector('.save-draft-btn') || 
+                           document.getElementById('save-draft-btn') ||
+                           document.querySelector('button[type="button"].save-draft-btn');
+      
+      console.log("Publish button found:", !!publishBtn);
+      console.log("Save draft button found:", !!saveDraftBtn);
+      
+      // Direct publish button handler
+      if (publishBtn) {
+        publishBtn.addEventListener('click', function() {
+          console.log("Publish button clicked");
+          try {
+            // Get form data
+            const title = document.getElementById('article-title')?.value?.trim();
+            const category = document.getElementById('article-category')?.value;
+            const excerpt = document.getElementById('article-excerpt')?.value?.trim();
+            const content = document.getElementById('article-content')?.value?.trim();
+            const imageUrl = document.getElementById('article-image')?.value || '/api/placeholder/800/400';
+            const articleId = document.getElementById('article-id')?.value;
+            
+            console.log("Publishing article:", { title, category, excerpt });
+            
+            if (!title || !category || !excerpt || !content) {
+              alert("Please fill out all required fields");
+              return;
+            }
+            
+            // Call the handler based on what functions are available
+            if (typeof window.publishArticleHandler === 'function') {
+              window.publishArticleHandler();
+            } else if (typeof publishArticleHandler === 'function') {
+              publishArticleHandler();
+            } else {
+              // Fallback - use direct Supabase call if available
+              alert("Publishing article: " + title);
+              // The actual publishing will happen through the module
+            }
+          } catch (e) {
+            console.error("Error in publish button handler:", e);
+            alert("Error publishing article: " + e.message);
+          }
+        });
+      }
+      
+      // Direct save draft button handler
+      if (saveDraftBtn) {
+        saveDraftBtn.addEventListener('click', function() {
+          console.log("Save draft button clicked");
+          try {
+            // Get form data
+            const title = document.getElementById('article-title')?.value?.trim();
+            
+            if (!title) {
+              alert("Please enter a title for your article");
+              return;
+            }
+            
+            // Call the handler based on what functions are available
+            if (typeof window.saveDraftHandler === 'function') {
+              window.saveDraftHandler();
+            } else if (typeof saveDraftHandler === 'function') {
+              saveDraftHandler();
+            } else {
+              // Fallback - notify user
+              alert("Saving draft: " + title);
+              // The actual saving will happen through the module
+            }
+          } catch (e) {
+            console.error("Error in save draft button handler:", e);
+            alert("Error saving draft: " + e.message);
+          }
+        });
+      }
+      
+      // Find and fix any other buttons
+      document.querySelectorAll('.article-action-btn').forEach(btn => {
+        console.log("Found article action button:", btn.className);
+        if (btn.classList.contains('edit-btn')) {
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            console.log("Edit button clicked for article:", id);
+            // The actual edit will happen through the module
+          });
+        }
+      });
+    }
+    
+    // Run the fixes
+    setupTabs();
+    setupPublishButtons();
+    
+    // Make global helper functions available
+    window.showNotification = function(message, type) {
+      const notification = document.getElementById('notification');
+      if (!notification) return;
+      
+      notification.textContent = message;
+      notification.className = 'notification';
+      notification.classList.add(`notification-${type}`);
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    };
+    
+    // Additional debugging
+    console.log("Module status check:");
+    setTimeout(() => {
+      if (typeof supabaseClient === 'undefined') {
+        console.error("supabaseClient is not defined - CDN might not be loading properly");
+      }
+    }, 1000);
+  });
+</script> -->
+
+<div style="position: fixed; top: 10px; right: 10px; background: #f5f5f5; border: 1px solid #ccc; padding: 10px; z-index: 9999; width: 300px;">
+  <h3>Supabase Direct Test</h3>
+  <div style="margin: 10px 0;">
+    <button id="test-connection" style="padding: 5px; margin-right: 5px;">Test Connection</button>
+    <button id="test-create" style="padding: 5px;">Test Create</button>
+  </div>
+  <div id="test-result" style="font-size: 12px; max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const resultDiv = document.getElementById('test-result');
+  
+  function log(message, isError = false) {
+    const div = document.createElement('div');
+    div.style.color = isError ? 'red' : 'black';
+    div.style.borderBottom = '1px solid #eee';
+    div.style.padding = '3px 0';
+    div.textContent = message;
+    resultDiv.appendChild(div);
+    resultDiv.scrollTop = resultDiv.scrollHeight;
+    console.log(message);
+  }
+
+  // Test connection
+  document.getElementById('test-connection').addEventListener('click', async function() {
+    log('Testing Supabase connection...');
+    
+    try {
+      // Check if supabase is defined
+      if (typeof supabase === 'undefined') {
+        log('ERROR: supabase is not defined!', true);
+        
+        // Check if it's on window
+        if (typeof window.supabase !== 'undefined') {
+          log('Found supabase on window object');
+          supabase = window.supabase;
+        } else {
+          log('ERROR: supabase not found on window either', true);
+          return;
+        }
+      }
+      
+      log('Attempting to query articles table...');
+      const { data, error } = await supabase.from('articles').select('id').limit(3);
+      
+      if (error) {
+        log('ERROR: ' + error.message, true);
+        log('Code: ' + error.code, true);
+        return;
+      }
+      
+      log('Success! Found ' + (data ? data.length : 0) + ' articles');
+      if (data && data.length > 0) {
+        log('First article ID: ' + data[0].id);
       }
     } catch (e) {
-      console.error("Error creating Supabase client:", e);
-      alert("Failed to initialize Supabase. See console for details.");
+      log('EXCEPTION: ' + e.message, true);
     }
-  </script>
-
-  <script src="supabase.js" type="module"></script>
-  <script src="app.js" type="module"></script>
+  });
   
-  <!-- Basic functionality for demo -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Placeholder for functionality that would be in app.js
-    });
-  </script>
+  // Test create
+  document.getElementById('test-create').addEventListener('click', async function() {
+    log('Testing article creation...');
+    
+    try {
+      if (typeof supabase === 'undefined') {
+        log('ERROR: supabase is not defined!', true);
+        return;
+      }
+      
+      const testArticle = {
+        id: Date.now().toString(),
+        title: 'Test ' + new Date().toLocaleTimeString(),
+        category: 'Test Category',
+        excerpt: 'Test excerpt',
+        content: '<p>Test content</p>',
+        imageUrl: '/api/placeholder/800/400',
+        status: 'published',
+        date: new Date().toISOString(),
+        readTime: '1 min read',
+        showTimeline: false
+      };
+      
+      log('Creating article: ' + testArticle.title);
+      const { data, error } = await supabase.from('articles').insert([testArticle]).select();
+      
+      if (error) {
+        log('ERROR: ' + error.message, true);
+        log('Code: ' + error.code, true);
+        return;
+      }
+      
+      log('Success! Article created with ID: ' + (data[0]?.id || 'unknown'));
+      log('Try refreshing and checking the My Articles tab');
+    } catch (e) {
+      log('EXCEPTION: ' + e.message, true);
+    }
+  });
+  
+  log('Test panel loaded. Click buttons to test.');
+});
+</script>
   
 </body>
 </html>
